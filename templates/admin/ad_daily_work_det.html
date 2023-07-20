@@ -1,0 +1,393 @@
+{%extends 'admin/ad_base.html'%}
+{%load static%}
+{%block content%}
+
+
+<div class="row pt-3" style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">PROJECTS</div>
+</div>
+<div class="row mt-4">
+  <div class="card">
+    <div class="card-body">
+      <div class="row mt-3 mb-3" >
+        <div class="col-sm-4">
+          <div class="row">
+            <div class="col-sm-12">
+              <input type="text" class="form-control text-light" id="search" placeholder="Search by Client...">
+            </div>
+           
+          </div>
+          
+        </div>
+        <div class="col-sm-4">
+          <div class="row">
+            <div class="col-sm-12">
+              <input type="text" class="form-control text-light" id="search_ts" placeholder="Search by Task...">
+            </div>
+           
+          </div>
+          
+        </div>
+        <div class="col-sm-4">
+          <div class="row">
+            <div class="col-sm-12">
+              <input type="text" class="form-control text-light" id="search_ex" placeholder="Search By Executive ...">
+            </div>
+            
+          </div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="table-responsive">
+        <table class="table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th scope="col" style="color:#6C7293;">Client Name</th>
+              <th scope="col" style="color:#6C7293;">Task name</th>
+              <th scope="col" style="color:#6C7293;">AssignedTo</th>
+              <th scope="col" style="color:#6C7293;">Description</th>
+              <th scope="col" style="color:#6C7293;">Attached File</th>
+              <th scope="col" style="color:#6C7293;">Target</th>
+              <th scope="col" style="color:#6C7293;">Delay</th>
+              
+            </tr>
+          </thead>
+          <tbody id="myTable">
+
+            {% for work in dl_work %}
+           
+              <tr>
+                <td style="color:white;">{{work.cl_name}}</td>
+              <td style="color:white;">{{work.task}}</td>
+             
+              <td style="color:white;">{{work.user.fullname}}</td>
+              <td style="color:white;">
+                <a href="" data-toggle="modal" data-target="#dis{{work.id}}"><div class="badge badge-outline-info" >View Description</div></a>
+              </td>
+
+              <td class="text-primary">
+                {% if work.daily_file == ""%}
+                  <div class="badge badge-outline-info">No File Attached</div>
+                {% else %}
+                {% for ss in work.json_testerscreenshot %}
+                  <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="{{ ss }}" download>
+                      Download</a></div>
+                  {% endfor %}
+
+                {% endif %}
+              </td>
+
+              <td class="text-primary">
+                {% if work.status == "no"%}
+                  <div class="badge badge-outline-danger">
+                    Target Not Achieved
+                  </div>
+                {% elif work.status == ""%}
+                <div class="badge badge-outline-danger">
+                  Target Not Achieved
+                </div>
+                {% elif work.status == "about"%}
+                  <div class="badge badge-outline-warning">
+                    About to Achieved
+                  </div>  
+                {%else%}
+                <div class="badge badge-outline-success">
+                  Target Achieved
+                </div>
+                {%endif%}
+              </td>
+              <td>
+                {% for l in master %}
+                {% if work.work_id == l.id %}
+                {% if l.status == "yes" %}
+                <div class="badge badge-outline-danger">{{l.delay}}</div>
+                {%else%}
+                {%endif%}
+                {%else%}
+                {%endif%}
+                {% endfor %}
+              </td>
+            </tr>
+            
+            {%endfor%}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% for work in dl_work %}
+  <div class="rowmt-5 modal fade" id="dis{{work.id}}">
+    <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+      aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;">Description</div>
+            
+            <div class="row mt-2">
+              <div class="col-sm-12">
+                <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="des_rp">{{work.workdone}}</p>
+              </div>
+
+              <div>
+                {% if work.task == "Leads Collection" %}
+                {% for n in dl_leeds %}
+                    
+                      {% if work.id == n.daily_id%}
+                      <a href="" data-dismiss="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')" data-toggle="modal" ><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      
+                      {%else%}
+                      {%endif%}
+                      
+                    {%endfor%}
+                {%else%}
+                {%endif%}
+
+                {% if work.task == "SMO" %}
+                    {% if work.fb != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Facebook','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Facebook</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.tw != None%}
+                    <a href="" data-toggle="modal" data-target="#descr"onclick="view_sub('Twitter','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Twitter</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.pin != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Pinterest','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Pinterest</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.link != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Linkedin','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Linkedin</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.insta != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Instagram','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Instagram</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.tumb != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumblr','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Tumblr</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.diry != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Directories','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Directories</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.yt != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('You Tube','{{work.id}}')"><div class="badge badge-outline-primary mt-1">You Tube</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.qra != v%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Quora','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Quora</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% for n in dl_sub %}
+                    
+                      {% if work.id == n.daily_id%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      {%else%}
+                      {%endif%}
+                    {%endfor%}
+                
+                {%else%}
+                {%endif%}
+
+                
+                    {% if work.pr != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('PR Submission','{{work.id}}')"><div class="badge badge-outline-primary mt-1">PR Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.art != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Article Submission','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Article Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.blg != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Blog Posting','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Blog Posting</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.clss != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Classified Submission','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Classified Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.gst != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Guest Blogging','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Guest Blogging</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.gst != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Bokkmarking','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Bokkmarking</div></a>
+                    {%else%}
+                    {%endif%}
+                    
+
+                    {% for n in dl_off %}
+                    
+                      {% if work.id == n.daily_id%}
+                      <a href="" data-dismiss="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')" data-toggle="modal" ><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      
+                      {%else%}
+                      {%endif%}
+                      
+                    {%endfor%}
+                
+                  
+              </div>
+              
+            </div>
+            {% if work.task == "Leads Collection" %}
+            <div class="row mt-2">
+              <div class="col-sm-12" style="text-align: right;">
+                <a href="{% url 'ad_export_excel' work.id %}">
+                <div class="badge badge-outline-success">
+                  Download Excel</div></a>
+              </div>
+            </div>
+            {%else%}
+            {%endif%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{%endfor%}
+
+<div class="rowmt-5 modal fade" id="descr">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads"></div>
+
+          <div class="row mt-5">
+            <div class="col">
+              <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="sub_des"></p>
+
+              <div id="files_sub">
+                  <a href="" id="files"><div  class="btn-primary Search" style="width:220px; text-align:center" >Download Attach File</div></a>
+                </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+  <script>
+    function view_sub(el, id){
+        var elem=el
+        var ids=id
+        
+        $.ajax({
+            type: "GET",
+            url: "{% url 'get_sub' %}",
+            data: {
+                ele : elem,
+                idss:ids,
+                
+            },
+            success:function(response){
+                    console.log(response)
+             
+                    head = response.hd
+                    des = response.des
+                    fil = response.fl
+             
+                    document.getElementById('sub_des').innerHTML = des;
+                    document.getElementById('heads').innerHTML = head;
+                    flr=document.getElementById('files')
+               
+                    flr.href = (`/media/${fil}`)
+                    
+  
+            }});
+  
+        
+    }
+  </script>
+
+
+<script>
+  $(document).ready(function () {
+    $("#search").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+
+  $(document).ready(function () {
+    $("#search_ts").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+
+  $(document).ready(function () {
+    $("#search_ex").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  function setselected(id) {
+    $('input[name="selected"]').val(id);
+  }
+</script>
+
+<script>
+  function view_dis(el){
+      var elem=el
+     
+      $.ajax({
+          type: "GET",
+          url: "{% url 'get_dis' %}",
+          data: {
+              ele : elem,
+              
+          },
+          success:function(response){
+                  console.log(response)
+           
+                  repl = response.rep
+           
+                  document.getElementById('des_rp').innerHTML = repl;
+    
+                  
+                  
+
+          }});
+
+      
+  }
+</script>
+{% endblock %}

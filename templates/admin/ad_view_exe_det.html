@@ -1,0 +1,43 @@
+<!-- view_leads.html -->
+
+{%extends 'admin/ad_base.html'%}
+{% load static %}
+
+{% block content %}
+<style>
+  .red {
+    color: red;
+  }
+
+  .green {
+    color: green;
+  }
+</style>
+
+<div class="row mt-5">
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th scope="col" style="color:#6C7293;">Date</th>
+              <th scope="col" style="color:#6C7293;">Total Leads</th>
+              <!-- <th scope="col" style="color:#6C7293;">Target</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            {% for lead in leads_by_date %}
+            <tr>
+              <td><a href="{% url 'ad_view_all_leads' lead.date id %}" class="text-decoration-none text-white">{{ lead.date }}</a></td>
+              <td>{{ lead.total_leads }}</td>
+              <!-- <td class="{% if lead.target < 100 %}red{% else %}green{% endif %}">{{ lead.target }}</td> -->
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,183 @@
+{%extends 'dm_manager/dm_ base.html'%}
+{%load static%}
+{%block content%}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<form method="POST" action="{% url 'save_assignment' %}">
+  {% csrf_token %}
+  <div class="row pt-3" style="background-color: black;">
+    <div class="" style="font-size: 20px; font-weight: 600; color: #6C7293;">
+      TELECALLERS
+      <div class="dropdown" style="display: inline-block;">
+        <button class="btn btn-dark dropdown-toggle" style="color:#bdbcbc;" type="button" id="telecallerDropdown"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {% if selected_telecaller %}
+          {{ selected_telecaller }}
+          {% else %}
+          Select telecaller
+          {% endif %}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="telecallerDropdown">
+          {% for telecaller in telecallers %}
+          <a class="dropdown-item" style="color:#6C7293;" href="#"
+            onclick="setSelectedTelecaller('{{ telecaller.fullname }}', '{{telecaller.id}}')">{{ telecaller.fullname }}</a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <input type="hidden" name="telecaller" id="selectedTelecallerInput" required> <!-- Added 'required' attribute -->
+  </div>
+
+  <div class="row mt-5">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-12" style="text-align: right;">
+            <div class="btn btn-danger" id="non_call_cont"> No Calling count</div>
+            <div class="btn btn-danger" id="cont"> Follow Up count</div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table" style="width: 100%;">
+            <thead>
+              <tr>
+                <th scope="col" style="color:#6C7293;"></th> <!-- New checkbox column -->
+                <th scope="col" style="color:#6C7293;">Date</th>
+                <th scope="col" style="color:#6C7293;">Name</th>
+                <th scope="col" style="color:#6C7293;">Email ID</th>
+                <th scope="col" style="color:#6C7293;">Phone Number</th>
+                <th scope="col" style="color:#6C7293;">Location</th>
+                <th scope="col" style="color:#6C7293;">Qualification</th>
+                <th scope="col" style="color:#6C7293;">Year Of Passout</th>
+                <th scope="col" style="color:#6C7293;">College Name</th>
+                <th scope="col" style="color:#6C7293;">Internship</th>
+                <th scope="col" style="color:#6C7293;">Internship Institute</th>
+                <th scope="col" style="color:#6C7293;">Internship Topic</th>
+                <th scope="col" style="color:#6C7293;">Internship Start</th>
+                <th scope="col" style="color:#6C7293;">Internship End</th>
+                <th scope="col" style="color:#6C7293;">Fresher/Experienced</th>
+                <th scope="col" style="color:#6C7293;">Previous Experienced</th>
+                <th scope="col" style="color:#6C7293;">Company Name</th>
+                <th scope="col" style="color:#6C7293;">Register For What</th>
+                <th scope="col" style="color:#6C7293;">Status</th>
+                <th scope="col" style="color:#6C7293;">Follow Up Details</th>
+                <th scope="col" style="color:#6C7293;">Assign Status</th>
+                <th scope="col" style="color:#6C7293;">Assign Date</th>
+                <th scope="col" style="color:#6C7293;">Executive ID</th>
+                <th scope="col" style="color:#6C7293;">Duration</th>
+                <th scope="col" style="color:#6C7293;">Datamanager ID</th>
+                <th scope="col" style="color:#6C7293;">Telecaller ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for lead in leads %}
+              <tr {% if lead.assign_status == "yes" %}class="assigned"{% endif %}>
+                <td>
+                  {% if lead.assign_status == "no" %}
+                  <input type="checkbox" name="lead_checkbox" value="{{ lead.id }}" data-lead-id="{{ lead.id }}" onchange="updateAssignStatus(this)">
+                  {%elif lead.assign_status == ""%}
+                  <input type="checkbox" name="lead_checkbox" value="{{ lead.id }}" data-lead-id="{{ lead.id }}" onchange="updateAssignStatus(this)">
+                  {% endif %}
+                </td>
+                <td>{{ lead.date }}</td>
+                <td>{{ lead.name }}</td>
+                <td>{{ lead.email_id }}</td>
+                <td>{{ lead.ph_no }}</td>
+                <td>{{ lead.location }}</td>
+                <td>{{ lead.qualification }}</td>
+                <td>{{ lead.year_of_passout }}</td>
+                <td>{{ lead.collegename }}</td>
+                <td>{{ lead.internship }}</td>
+                <td>{{ lead.internship_institute }}</td>
+                <td>{{ lead.internship_topic }}</td>
+                <td>{{ lead.internship_start }}</td>
+                <td>{{ lead.internship_end }}</td>
+                <td>{{ lead.fresher_experience }}</td>
+                <td>{{ lead.previous_experience }}</td>
+                <td>{{ lead.company_name }}</td>
+                <td>{{ lead.register }}</td>
+                <td>{{ lead.status }}</td>
+                <td>{{ lead.followup_dt }}</td>
+                <td>{{ lead.assign_status }}</td>
+                <td>{{ lead.assign_dt }}</td>
+                <td>{{ lead.executive_id }}</td>
+                <td>{{ lead.duration }}</td>
+                <td>{{ lead.data_manager_id }}</td>
+                <td>{{ lead.telecaller_id }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-end mt-3">
+    <div class="col-auto">
+      <button class="btn btn-primary" type="submit" id="submitButton" disabled>Submit</button> <!-- Added 'id' and 'disabled' attributes -->
+    </div>
+  </div>
+
+  
+</form>
+
+<script>
+  function setSelectedTelecaller(fullname,id) {
+    document.getElementById('telecallerDropdown').textContent = fullname;
+    document.getElementById('selectedTelecallerInput').value = fullname;
+
+    // Enable the submit button when telecaller and checkbox are selected
+    enableSubmitButton();
+    var customer= id
+    
+    $.ajax({
+            type: "GET",
+            url: "{% url 'get_cust_mail' %}",
+            data: {
+              
+                cust: customer
+            },
+            success: function (response) {
+                console.log(response)
+                data = response.email
+                non_call_count=response.no_call_cnt
+                document.getElementById("cont").innerHTML = data
+                document.getElementById("non_call_cont").innerHTML = non_call_count
+                
+            }
+        });
+  }
+
+  function enableSubmitButton() {
+    const selectedTelecaller = document.getElementById('selectedTelecallerInput').value;
+    const checkboxes = document.querySelectorAll('input[name="lead_checkbox"]:checked');
+    const submitButton = document.getElementById('submitButton');
+
+    if (selectedTelecaller && checkboxes.length > 0) {
+      submitButton.disabled = false;
+    } else {
+      submitButton.disabled = true;
+    }
+  }
+
+  // Listen for checkbox changes to enable/disable the submit button
+  const checkboxes = document.querySelectorAll('input[name="lead_checkbox"]');
+  checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener('change', enableSubmitButton);
+  });
+
+  // Move assigned rows to the end
+  const tableBody = document.querySelector('tbody');
+  const assignedRows = tableBody.querySelectorAll('.assigned');
+
+  assignedRows.forEach((row) => {
+    tableBody.appendChild(row);
+  });
+</script>
+
+<script>
+    function cust_mail(){
+        
+    }
+</script>
+{% endblock %}

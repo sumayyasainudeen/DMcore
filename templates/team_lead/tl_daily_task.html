@@ -1,0 +1,803 @@
+{% extends 'team_lead/tl_base.html' %} 
+{%load static%}
+{%block content%}
+<div class="row pt-3" style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">DAILY TASK</div>
+</div>
+<div class="row mt-4">
+  <div class="card">
+    <div class="card-body">
+      <input type="text" class="form-control text-light" id="search" placeholder="search...">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" style="color:#6C7293;">CLIENT NAME</th> 
+              <th scope="col" style="color:#6C7293;">WORKDONE</th> 
+              <th scope="col" style="color:#6C7293;">EXECUTIVE NAME</th> 
+              <th scope="col" style="color:#6C7293;">FILE</th> 
+              <th scope="col" style="color:#6C7293;">TARGET STATUS</th>
+              <th scope="col" style="color:#6C7293;">CORRECTION</th> 
+              <th scope="col" style="color:#6C7293;">DELAY</th>
+            </tr>
+          </thead>
+          <tbody id="myTable">
+            {% for i in work %}
+            
+              <tr>
+              <td style="color:white;">{{i.work.client_name.client_name}}</td>
+              <td style="color:white;" data-toggle="modal" data-target="#workdetails{{i.id}}">{{i.task}}</td>
+              <td style="color:white;">{{i.user.fullname}}</td>
+              <td style="color:white;">
+                {% for ss in i.json_testerscreenshot %}
+                {% if ss %}
+              
+                  <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="{{ ss }}" download>
+                      Download</a></div>
+                
+                  {% endif %}
+                  {% endfor %}
+               
+              </td>
+              <td style="color:white;" data-toggle="modal" data-target="#status{{i.id}}">
+              
+                  {% if i.status == "no"%}
+                    <div class="badge badge-outline-danger">
+                    Target Not Achieved
+                    </div>
+                    {% elif i.status == ""%}
+                    <div class="badge badge-outline-danger">
+                      Target Not Achieved
+                    </div>
+                    {% elif i.status == "about"%}
+                      <div class="badge badge-outline-warning">
+                        About to Achieved
+                      </div>   
+                    {%else%}
+                    <div class="badge badge-outline-success">
+                      Target Achieved
+                    </div>
+                    
+              
+                  {%endif%}
+               
+              </td> 
+              <td style="color:white;" data-toggle="modal" data-target="#correction{{i.id}}"><div class="badge badge-outline-danger mt-1">Correction</div></td>
+              <td>
+                {% for l in master %}
+                {% if i.work_id == l.id %}
+                {% if l.status == "yes" %}
+                <div class="badge badge-outline-danger">{{l.delay}}</div>
+                {%else%}
+                {%endif%}
+                {%else%}
+                {%endif%}
+                {% endfor %}
+              </td>
+
+              <div class="rowmt-5 hidden modal fade" id="correction{{i.id}}">
+                <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+                  aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+                  <div class="modal-content modal-xl" style="background-color: #191c24;">
+                    <div class="card ">
+                      <div class="card-body">
+                        <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+                          style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="text-info" style="font-size: 20px;font-weight: 600;">CORRECTIONS</div>
+              
+                        <form action="{% url 'tl_add_correction_daily' i.id %}" method="post">{% csrf_token %}
+                          <div class="row pt-1">
+                            <div class="col">
+                              <textarea class="form-control ml-3 mt-2" name="cor" rows="8" cols="100" style="height: 100%; color:white"></textarea>
+                            </div>
+                        </div> 
+                        <div class="mt-2">
+                          <button  class="ml-3 mt-2 btn btn-outline-success">
+                            SUBMIT
+                            </button>
+                        </div>
+                      </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="rowmt-5 hidden modal fade" id="status{{i.id}}">
+                <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+                  aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+                  <div class="modal-content modal-xl" style="background-color: #191c24;">
+                    <div class="card ">
+                      <div class="card-body">
+                        <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+                          style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="text-info" style="font-size: 20px;font-weight: 600;">TARGET STATUS</div>
+              
+                        <form action="{% url 'tl_add_status' i.id %}" method="post">{% csrf_token %}
+                          <div class="row pt-1">
+                            <div class="row mt-3">
+                              <div class="col-md-6">
+                              {% if i.status == "yes" %}
+                                <input type="radio" id="option1" name="status" value="yes" checked>
+                              {% elif i.status == ""%}
+                              <input type="radio" id="option1" name="status" value="yes">
+                              {%else%}
+                                <input type="radio" id="option1" name="status" value="yes">
+                              {%endif%}
+                              <label for="option1">Achieved</label>
+                              </div>
+                              <div class="col-md-6">
+                              {% if i.status == "no" %}
+                                <input type="radio" id="option2" name="status" value="no" checked>
+                              {% elif i.status == ""%}
+                              <input type="radio" id="option2" name="status" value="no"> 
+                              {%else%}
+                                <input type="radio" id="option2" name="status" value="no"> 
+                              {%endif%}
+                                   
+                              <label for="option2">Not Achieved</label>       
+                              </div>
+                            </div> 
+                        </div> 
+                        <div class="mt-2">
+                          <button  class="ml-3 mt-2 btn btn-outline-success">
+                            SUBMIT
+                            </button>
+                        </div>
+                      </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            {% endfor %}
+            
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% for i in work %}
+<div class="rowmt-5 modal fade" id="workdetails{{i.id}}">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">Work Details</div>
+
+            <div class="row mt-3">
+              <div class="col">
+                <p class=" mt-2 text-light" style="color:white;">{{i.workdone}}</p>
+              </div>
+              {% if i.task == "Leads Collection" %}
+                {% for n in dl_leeds %}
+                    
+                    {% if i.id == n.daily_id%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                    {%else%}
+                    {%endif%}
+                {%endfor%}
+                {%else%}
+                {%endif%}
+              {% if i.task == "SMO" %}
+                    {% if i.fb != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Facebook','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Facebook</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.tw != None%}
+                    <a href="" data-toggle="modal" data-target="#descr"onclick="view_sub('Twitter','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Twitter</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.pin != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Pinterest','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Pinterest</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.link != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Linkedin','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Linkedin</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.insta != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Instagram','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Instagram</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.tumb != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumblr','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Tumblr</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.diry != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Directories','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Directories</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.yt != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('You Tube','{{i.id}}')"><div class="badge badge-outline-primary mt-1">You Tube</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.qra != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Quora','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Quora</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% for n in dl_sub %}
+                    
+                      {% if i.id == n.daily_id%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      {%else%}
+                      {%endif%}
+                    {%endfor%}
+                
+                {%else%}
+                {%endif%}
+
+                {% if i.pr != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('PR Submission','{{i.id}}')"><div class="badge badge-outline-primary mt-1">PR Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if i.art != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Article Submission','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Article Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if i.blg != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Blog Posting','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Blog Posting</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if i.clss != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Classified Submission','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Classified Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if i.gst != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Guest Blogging','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Guest Blogging</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if i.gst != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Bokkmarking','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Bokkmarking</div></a>
+                    {%else%}
+                    {%endif%}
+                    
+
+                    {% for n in dl_off %}
+                    
+                      {% if i.id == n.daily_id%}
+                      <a href="" data-dismiss="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')" data-toggle="modal" ><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      
+                      {%else%}
+                      {%endif%}
+                      
+                    {%endfor%}
+
+
+              {% if i.task == "Leads Collection" %}
+              <div class="row mt-2">
+                <div class="col-sm-12" style="text-align: right;">
+                  <a href="{% url 'tl_export_excel' i.id %}">
+                  <div class="badge badge-outline-success">
+                    Download Excel</div></a>
+                </div>
+              </div>
+             
+        
+          
+             
+              {% endif %}
+            </div> 
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="rowmt-5 hidden modal fade" id="fb">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.fb}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.fb_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.fb_file %}
+                    <a href="{{i.fb_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="tw">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.tw}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.tw_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.tw_file %}
+                    <a href="{{i.tw_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="pin">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.pin}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.pin_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.pin_file %}
+                    <a href="{{i.pin_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="link">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.link}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.link_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.link_file %}
+                    <a href="{{i.link_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="insta">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.insta}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.insta_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.insta_file %}
+                    <a href="{{i.insta_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="tumb">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.tumb}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.tumb_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.tumb_file %}
+                    <a href="{{i.tumb_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="diry">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.diry}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.diry_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.diry_file %}
+                    <a href="{{i.diry_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="yt">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.yt}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.yt_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.yt_file %}
+                    <a href="{{i.yt_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="pr">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.pr}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.pr_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.pr_file %}
+                    <a href="{{i.pr_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="art">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.art}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.art_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.art_file %}
+                    <a href="{{i.art_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="blg">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.blg}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.blg_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.blg_file %}
+                    <a href="{{i.blg_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="clss">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.clss}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.clss_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.clss_file %}
+                    <a href="{{i.clss_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="gst">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.gst}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.gst_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.gst_file %}
+                    <a href="{{i.gst_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="bk">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.bk}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.bk_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.bk_file %}
+                    <a href="{{i.bk_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+<div class="rowmt-5 modal fade" id="descr">
+  <div class="modal-dialog modal-m modal-dialog-centered" role="document">
+    <div class="modal-content modal-m" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <div class="container">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none; float: right; font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads"> </div>
+
+            <div class="row mt-5">
+              <div class="col">
+                <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="sub_des"></p>
+              </div>
+              <div id="files_sub">
+                <a href="" id="files"><div  class="btn-primary Search" style="width:220px; text-align:center" >Download Attach File</div></a>
+              </div>
+              
+            </div>
+           
+        </div>
+      </div>
+  </div>
+</div>
+<script>
+  function view_sub(el, id){
+      var elem=el
+      var ids=id
+      
+      $.ajax({
+          type: "GET",
+          url: "{% url 'get_sub' %}",
+          data: {
+              ele : elem,
+              idss:ids,
+              
+          },
+          success:function(response){
+                  console.log(response)
+           
+                  head = response.hd
+                  des = response.des
+                  fil = response.fl
+           
+                  document.getElementById('sub_des').innerHTML = des;
+                  document.getElementById('heads').innerHTML = head;
+                  flr=document.getElementById('files')
+             
+                  flr.href = (`/media/${fil}`)
+                  
+
+          }});
+
+      
+  }
+</script>
+<script>
+  $(document).ready(function () {
+    $("#search").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  function setselected(id) {
+    $('input[name="selected"]').val(id);
+  }
+</script>
+
+{% endblock %}

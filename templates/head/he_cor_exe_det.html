@@ -1,0 +1,179 @@
+{%extends 'head/he_base.html'%}
+<!-- DEVprojects -->
+{%load static%}
+{%block content%}
+<style>
+  #replay{
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    text-align: justify;
+  }
+  #warning{
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    text-align: justify;
+  }
+</style>
+
+
+
+<div class="row pt-3" style="background-color: black;">
+    <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">Corrections</div>
+  </div>
+
+
+<div class="row mt-4" style="background-color: #191c24">
+
+    <div class="table-responsive mt-3 mb-3 container">
+
+        <table class="table   table-bordered ">
+          <thead style="background-color: black;">
+            <tr>
+              <th scope="col" style="color:#6C7293;">Date</th>
+              <th scope="col" style="color:#6C7293;">Correction</th>
+            
+              
+              <th scope="col" style="color:#6C7293;">Replay</th>
+
+            </tr>
+          </thead>
+
+          <tbody>
+
+
+            {% for i in warn%}
+           
+            <tr>
+              
+              <td style="color:white;">{{i.date}}</td>
+
+              <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info" onclick="warning('{{i.id}}')" >View Corrections</div></td>
+              
+
+              <td style="color:white;" > 
+               
+                <a href="" data-toggle="modal" data-target="#reply"><div class="badge badge-outline-info" onclick="warning('{{i.id}}')" >View Reply</div></a>
+               
+              </td>
+              
+            
+            </tr>
+          </form>
+            {%endfor%}
+          </tbody>
+        </table>
+      
+      </div>
+
+
+  <div class="rowmt-5 modal fade" id="feed">
+    <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+      aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;">Correction</div>
+  
+              <div class="row mt-5">
+                <div class="col">
+                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="warng"></p>
+                </div>
+                
+              </div>
+             
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rowmt-5 modal fade" id="reply">
+    <div class="modal-dialog modal-m modal-dialog-centered" role="document">
+      <div class="modal-content modal-md" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <div class="container">
+              <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+                style="background-color: #191c24;border:none; float: right; font-size: 20px;">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <div class="text-info" style="font-size: 20px;font-weight: 600;">Reply</div>
+  
+              <div class="row mt-5">
+                <div class="col">
+                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="rep_des"></p>
+                </div>
+                
+              </div>
+             
+          </div>
+        </div>
+    </div>
+  </div>
+  
+
+
+
+
+
+<div class="rowmt-5 modal fade" id="descr">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads"></div>
+
+          <div class="row mt-5">
+            <div class="col">
+              <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="sub_des"></p>
+
+              <div id="files_sub">
+                  <a href="" id="files"><div  class="btn-primary Search" style="width:220px; text-align:center" >Download Attach File</div></a>
+                </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  function warning(el){
+        var elem=el
+        
+        $.ajax({
+            type: "GET",
+            url: "{% url 'get_corrections' %}",
+            data: {
+                ele : elem,
+                
+            },
+            success:function(response){
+                    console.log(response)
+                    warnss = response.warns
+                    repl = response.rep
+                    
+                    document.getElementById('warng').innerHTML = warnss;
+                    document.getElementById('rep_des').innerHTML = repl;
+                    
+                    
+  
+            }});
+  
+        
+    }
+  </script>
+  {% endblock %}

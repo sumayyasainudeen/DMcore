@@ -1,0 +1,129 @@
+{%extends 'admin/ad_base.html'%}
+{%load static%}
+{%block content%}
+
+
+<div class="row pt-3" style="background-color: black;">
+    <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">Warnings History</div>
+  </div> 
+  <div class="row mt-4">
+    <div class="card">
+      <div class="card-body">
+        <input type="text" class="form-control text-light" id="search" placeholder="search...">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col-4" style="color:#6C7293;">Date</th> 
+                <th scope="col-4" style="color:#6C7293;">Warnings</th> 
+                <th scope="col-4" style="color:#6C7293;">Replay</th> 
+            
+              </tr>
+            </thead>
+            <tbody id="myTable">
+                {% for k in warn%}
+                <tr>
+                <td style="color:white;">{{k.date}}</td>
+                <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info" onclick="warning('{{k.id}}')">View Warnings</div></td>
+                <td style="color:white;" data-toggle="modal" data-target="#reply"><div class="badge badge-outline-info" onclick="warning('{{k.id}}')">View Reply</div></td>
+              </tr>
+              {%endfor%}
+          </table>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  <div class="rowmt-5 modal fade" id="feed">
+    <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+      aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;">Warnings</div>
+  
+              <div class="row mt-5">
+                <div class="col">
+                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="warng"></p>
+                </div>
+                
+              </div>
+             
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rowmt-5 modal fade" id="reply">
+    <div class="modal-dialog modal-m modal-dialog-centered" role="document">
+      <div class="modal-content modal-m" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <div class="container">
+              <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+                style="background-color: #191c24;border:none; float: right; font-size: 20px;">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <div class="text-info" style="font-size: 20px;font-weight: 600;">Reply</div>
+  
+              <div class="row mt-5">
+                <div class="col">
+                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="rep_des"></p>
+                </div>
+                
+              </div>
+             
+          </div>
+        </div>
+    </div>
+  </div>
+<script>
+  $(document).ready(function () {
+    $("#search").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  function setselected(id) {
+    $('input[name="selected"]').val(id);
+  }
+</script>
+
+<script>
+  function warning(el){
+        var elem=el
+        
+        $.ajax({
+            type: "GET",
+            url: "{% url 'get_warns' %}",
+            data: {
+                ele : elem,
+                
+            },
+            success:function(response){
+                    console.log(response)
+                    warnss = response.warns
+                    repl = response.rep
+                    
+                    document.getElementById('warng').innerHTML = warnss;
+                    document.getElementById('rep_des').innerHTML = repl;
+                    
+                    
+  
+            }});
+  
+        
+    }
+  </script>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'dm_manager/dm_ base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row mt-5">
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th scope="col" style="color:#6C7293;">Telecaller Name</th>
+              <th scope="col" style="color:#6C7293;">Assign Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for telecaller in telecallers %}
+            <tr>
+              <td><a href="{% url 'count_all' telecaller.telecaller %}" class="text-decoration-none text-white">{{ telecaller.telecaller }}</a></td>
+              <td>{{ telecaller.assign_count }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

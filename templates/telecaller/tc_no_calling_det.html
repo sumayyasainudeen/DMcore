@@ -1,0 +1,93 @@
+{%extends 'telecaller/tc_base.html'%}
+{%load static%}
+{%block content%}
+
+<style>
+  .col-md-4{
+    margin-bottom: 30px;
+  }
+  .col-md-8{
+    margin-bottom: 30px;
+  }
+</style>
+
+
+<div class="row pt-3" style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">No Calling Leads</div>
+</div>
+<div class="row mt-4">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title">No Calling Leads</div>
+
+      
+
+      <input type="text" class="form-control text-light" id="search" placeholder="search...">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              
+              <th scope="col" style="color:#6C7293;">Name</th>
+              <th scope="col" style="color:#6C7293;">Contact</th>
+              <th scope="col" style="color:#6C7293;">Email</th>
+            </tr>
+          </thead>
+          <tbody id="myTable">
+
+              {% for l in leads %}
+             
+           
+              <tr>
+              
+              <td style="color:white;">{{l.name}}</td>
+              <td style="color:white;">{{l.ph_no}}</td>
+              <td style="color:white;">{{l.email_id}}</td>
+              </tr>
+            
+            {%endfor%}
+        
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function () {
+    $("#search").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  function setselected(id) {
+    $('input[name="selected"]').val(id);
+  }
+</script>
+
+
+
+{% endblock %}
+

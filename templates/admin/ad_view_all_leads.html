@@ -1,0 +1,237 @@
+<!-- view_all_leads.html -->
+
+{%extends 'admin/ad_base.html'%}
+{% load static %}
+
+{% block content %}
+<div class="row mt-5">
+  <div class="card">
+    <div class="card-body">
+        <div style="text-align: right;">
+            <a href="" data-toggle="modal" data-target="#flt_day"style="text-decoration: none;"><button type="submit" name="submit" id="alert2" class="btn-primary Search" >Filter By Day</button></a>
+            <a href="" data-toggle="modal" data-target="#flt_month"style="text-decoration: none;"><button type="submit" name="submit" id="alert3" class="btn-primary Search" >Filter By Month</button></a>
+            <br><br>
+          </div>
+    
+      <div class="table-responsive">
+        <table class="table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th scope="col" style="color:#6C7293;">Date</th>
+              <th scope="col" style="color:#6C7293;">Name</th>
+              <th scope="col" style="color:#6C7293;">Email ID</th>
+              <th scope="col" style="color:#6C7293;">Phone Number</th>
+              <th scope="col" style="color:#6C7293;">Location</th>
+              <th scope="col" style="color:#6C7293;">Qualification</th>
+              <th scope="col" style="color:#6C7293;">Year Of Passout</th>
+              <th scope="col" style="color:#6C7293;">College Name</th>
+              <th scope="col" style="color:#6C7293;">Internship</th>
+              <th scope="col" style="color:#6C7293;">Internship Institute</th>
+              <th scope="col" style="color:#6C7293;">Internship Topic</th>
+              <th scope="col" style="color:#6C7293;">Internship Start</th>
+              <th scope="col" style="color:#6C7293;">Internship End</th>
+              <th scope="col" style="color:#6C7293;">Fresher/Experienced</th>
+              <th scope="col" style="color:#6C7293;">Previous Experienced</th>
+              <th scope="col" style="color:#6C7293;">Company Name</th>
+              <th scope="col" style="color:#6C7293;">Register For What</th>
+              <th scope="col" style="color:#6C7293;">Status</th>
+              <th scope="col" style="color:#6C7293;">Follow Up Details</th>
+              <th scope="col" style="color:#6C7293;">Assign Status</th>
+              <th scope="col" style="color:#6C7293;">Assign Date</th>
+              <th scope="col" style="color:#6C7293;">Executive ID</th>
+              <th scope="col" style="color:#6C7293;">Duration</th>
+              <th scope="col" style="color:#6C7293;">Datamanager ID</th>
+              <th scope="col" style="color:#6C7293;">Telecaller ID</th>
+              <th scope="col" style="color:#6C7293;">Action</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            {% for lead in leads %}
+            <tr>
+              <td>{{ lead.date }}</td>
+              <td>{{ lead.name }}</td>
+              <td>{{ lead.email_id }}</td>
+              <td>{{ lead.ph_no }}</td>
+              <td>{{ lead.location }}</td>
+              <td>{{ lead.qualification }}</td>
+              <td>{{ lead.year_of_passout }}</td>
+              <td>{{ lead.collegename }}</td>
+              <td>{{ lead.internship }}</td>
+              <td>{{ lead.internship_institute }}</td>
+              <td>{{ lead.internship_topic }}</td>
+              <td>{{ lead.internship_start }}</td>
+              <td>{{ lead.internship_end }}</td>
+              <td>{{ lead.fresher_experience }}</td>
+              <td>{{ lead.previous_experience }}</td>
+              <td>{{ lead.company_name }}</td>
+              <td>{{ lead.register }}</td>
+              <td>{{ lead.status }}</td>
+              <td>{{ lead.followup_dt }}</td>
+              <td>{{ lead.assign_status }}</td>
+              <td>{{ lead.assign_dt }}</td>
+              <td>{{ lead.executive_id }}</td>
+              <td>{{ lead.duration }}</td>
+              <td>{{ lead.data_manager_id }}</td>
+              <td>{{ lead.telecaller_id }}</td>
+              <td>
+                <a style="text-decoration:none;" href="#" class="delete-icon" data-lead-id="{{ lead.id }}">
+                 Delete
+                </a>
+              </td> 
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rowmt-5 modal fade" id="flt_day">
+    <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+      aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;">Filter By Day</div>
+  
+            <form action="{% url 'ad_filter_day_previous_leads' date id %}" method="POST" enctype="multipart/form-data">
+              {% csrf_token %} 
+  
+              <div class="row mt-5">
+                
+                <div class="col-md-12 ">
+                    <div>
+                        <label for="">Select Day</label>
+                    </div>
+                    <div>
+                    <input type="date" name="day" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;height:70px;" required >
+                    </div>
+  
+      
+                </div>
+                <!-- <div class="col-md-6 ">
+                    <div>
+                        <label for=""> End Date</label>
+                    </div>
+                    <div>
+                        <input type="date" name="end_dt" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;height:70px;" required >
+                    </div>
+  
+      
+                </div> -->
+  
+              </div>
+  
+              <div class="row mt-4 ">
+                <div class="col-md-12" style="text-align: center;">
+                    
+                        <button type="submit" name="submit" id="alert2" class="btn-primary Search" >Filter By Day</button>
+                    
+                </div>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="rowmt-5 modal fade" id="flt_month">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">Filter By Month</div>
+  
+          <form action="{% url 'ad_filter_month_previous_leads' date id%}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %} 
+  
+            <div class="row mt-5">
+              
+              <div class="col-md-12 ">
+                  <div>
+                      <label for="">Select Month</label>
+                  </div>
+                  <div>
+                  <input type="month" name="month" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;height:70px;" required >
+                  </div>
+  
+    
+              </div>
+              <!-- <div class="col-md-6 ">
+                  <div>
+                      <label for=""> End Month</label>
+                  </div>
+                  <div>
+                      <input type="month" name="end_month" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;height:70px;" required >
+                  </div>
+  
+    
+              </div> -->
+  
+            </div>
+  
+            <div class="row mt-4 ">
+              <div class="col-md-12" style="text-align: center;">
+                  
+                      <button type="submit" name="submit" id="alert2" class="btn-primary Search" >Filter By Month</button>
+                  
+              </div>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const deleteIcons = document.querySelectorAll('.delete-icon');
+    deleteIcons.forEach((icon) => {
+      icon.addEventListener('click', handleDeleteLead);
+    });
+
+    function handleDeleteLead(event) {
+      event.preventDefault();
+      const leadId = event.target.dataset.leadId;
+
+      // Send an AJAX request to delete the lead
+      fetch(`/delete_lead/${leadId}/`, {
+        method: 'DELETE',
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}'
+        }
+      })
+        .then(response => {
+          if (response.ok) {
+            // Remove the deleted row from the table
+            const row = event.target.closest('tr');
+            row.remove();
+          } else {
+            console.error('Failed to delete lead');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  });
+</script>
+
+{% endblock %}

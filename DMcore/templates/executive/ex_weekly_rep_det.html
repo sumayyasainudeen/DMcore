@@ -1,0 +1,176 @@
+{%extends 'executive/ex_base.html'%}
+{%load static%}
+{%block content%}
+
+
+<div class="row pt-3" style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">PROJECTS</div>
+</div>
+<div class="row mt-4">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title">Projects</div>
+      <input type="text" class="form-control text-light" id="search" placeholder="search...">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" style="color:#6C7293;">Task name</th>
+              <th scope="col" style="color:#6C7293;">AssignedTo</th>
+              <th scope="col" style="color:#6C7293;">Task Status</th>
+
+
+            </tr>
+          </thead>
+          <tbody id="myTable">
+            
+            {% for works in work_tb%}
+            {% for wras in work_as%}
+            {% if works.id == wras.work_id%}
+              <tr>
+              <td style="color:white;">{{works.task}}</td>
+             
+              <td style="color:white;">{{usr.fullname}}</td>
+              <td class="text-primary"><a href="" data-toggle="modal" data-target="#taskstatus{{works.id}}"
+                  style="text-decoration: none;">
+                  <div class="badge badge-outline-info">Task Status</div>
+                </a></td>
+            </tr>
+            {%else%}
+            {%endif%}
+            {% endfor %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+{% for i in work_tb%}
+<form action="{% url 'sv_wk_rp' i.id%}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="modal fade" id="taskstatus{{i.id}}">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="modal-header">
+          <h5 class="modal-title text-info">Weekly Work Report</h5>
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="font-size: 20px;;background-color: #191c24;border:none;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="table-responsive mt-3 mb-3 container">
+
+          <table class="table   table-bordered ">
+            <thead style="background-color: black;">
+              <tr>
+                <th scope="col" style="color:#6C7293;">Start Date</th>
+                <th scope="col" style="color:#6C7293;">End Date</th>
+                <th scope="col" style="color:#6C7293;">Task</th>
+                
+
+                <th scope="col" style="color:#6C7293;">Files</th>
+                <th scope="col" style="color:#6C7293;">Graph</th>
+
+
+                
+                <th scope="col" style="color:#6C7293;">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              {% for reps in rep%}
+              {% if reps.work_id == i.id%}
+              <tr>
+                <td style="color:white;">{{reps.start_date}}</td>
+                <td style="color:white;">{{reps.end_date}}</td>
+
+                <td style="color:white;">{{reps.task}}
+                </td>
+                
+                
+
+                <td style="color:white;">
+                  {% if reps.audit_rprt == ""%}
+                  <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="" download>
+                    No File Attached</a></div>
+                    {%else%}
+                    <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="{{reps.audit_rprt.url}}" download>
+                      Download</a></div>
+                  {% endif %}
+                </td>
+                <td style="color:white;">
+                  {% if reps.graph == ""%}
+                  <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="" download>
+                    No File Attached</a></div>
+                    {%else%}
+                    <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="{{ ss }}" download>
+                      Download</a></div>
+                      {%endif%}
+
+                  
+                </td>
+                
+                <td>
+                  <!-- <div class="badge badge-outline-primary"><a href="" style="text-decoration: none;"
+                      target="_blank">View</a></div> -->
+                </td>
+              </tr>
+              {%else%}
+              {%endif%}
+              {%endfor%}
+
+             
+
+              <tr>
+                <td style="color:white;"><input type="date" name="st_dt"  class="drop form-control ml-3 mt-2 text-light"  style="border:1px solid #6C7293 ;color:#6C7293;"></td>
+                <td style="color:white;"><input type="date" name="ed_dt" class="drop form-control ml-3 mt-2 text-light"  style="border:1px solid #6C7293 ;color:#6C7293;" ></td>
+
+                <td style="color:white;">{{i.task}}
+                </td>
+               
+
+              
+
+                <td class="text-info"><input type="file" name="repr_fl" multiple></td>
+                <td class="text-info"><input type="file" name="gr_fl" multiple></td>
+              
+                
+                <td class="text-info"><button type="submit" class="btn badge-outline-primary">submit</button></td>
+
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>
+{% endfor %}
+
+<script>
+  $(document).ready(function () {
+    $("#search").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  function setselected(id) {
+    $('input[name="selected"]').val(id);
+  }
+</script>
+
+{% endblock %}

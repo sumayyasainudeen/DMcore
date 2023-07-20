@@ -1,0 +1,1491 @@
+{% extends 'team_lead/tl_base.html' %} 
+{%load static%}
+{%block content%}
+
+<div class="row pt-3" style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">ALTOS TECHNOLOGIES</div>
+</div>
+
+<div class="row mt-4 ">
+      <div class="card">
+          <div class="card-body">
+                  <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row  px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-center text-xl-left">
+                          <h6 class="mb-1">BUSINESS NAME</h6>
+                        
+                      </div>
+                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                          <h6 class="text-muted mb-0 mx-5">{{client.bs_name}}</h6>
+                      </div>
+                  </div>
+                  <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row  px-md-3 px-xl-4 rounded mt-3">
+                      <div class="text-md-center text-xl-left">
+                          <h6 class="mb-1">WEBSITE URL</h6>
+                      </div>
+                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0 mx-5">
+                          <h6 class="text-muted mb-0">{{client.bs_website}}</h6>
+                      </div>
+                  </div>
+                  <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row  px-md-3 px-xl-4 rounded mt-3">
+                    <div class="text-md-center text-xl-left">
+                        <h6 class="mb-1">LOCATION</h6> 
+                    </div>
+                    <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0 mx-5">
+                        <h6 class="text-muted mb-0">{{client.bs_location}}</h6>
+                    </div>
+                </div>
+          </div>
+      </div>
+      
+  </div>
+
+<div class="row mt-4">
+  <div class="card">
+    <div class="card-body">
+      <input type="text" class="form-control text-light" id="search" placeholder="search...">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" style="color:#6C7293;">Task name</th>
+              <th scope="col" style="color:#6C7293;">AssignedTo</th>
+              <th scope="col" style="color:#6C7293;">StartDate</th>
+              <th scope="col" style="color:#6C7293;">EndDate</th>
+              <th scope="col" style="color:#6C7293;">Submit</th>
+            </tr>
+          </thead>
+          <tbody id="myTable">     
+           {% if client.seo %}
+              <tr>
+                <form action="" method="post">{% csrf_token %}
+              <td style="color:white;" data-bs-toggle="modal" data-bs-target="#wrk_1" id="tsk1">{{client.seo}}</td>
+             
+              <td style="color:white;">
+                  <input value="SELECT EXECUTIVE" class="form-control"  data-bs-toggle="modal" data-bs-target="#select_exe_1" type="button">
+              </td>  
+              <td><input class="form-control" type="date" name="d1" id="sdate1"></td>
+              <td><input class="form-control" type="date" name="d2" id="edate1"></td>
+              <td><button class="btn btn-outline-success" id="btn1">SUBMIT</button></td>
+              </form>
+              </tr>
+          {% endif %}  
+          {% if client.smm %}
+              <tr>
+                <form action="" method="post">{% csrf_token %}
+              <td style="color:white;" data-bs-toggle="modal" data-bs-target="#wrk_2" id="tsk2">{{client.smm}}</td>
+             
+              <td style="color:white;">
+                  <input value="SELECT EXECUTIVE" class="form-control"  data-bs-toggle="modal" data-bs-target="#select_exe_2" type="button">
+              </td>  
+              <td><input class="form-control" type="date" name="d1" id="sdate2"></td>
+              <td><input class="form-control" type="date" name="d2" id="edate2"></td>
+              <td><button class="btn btn-outline-success" id="btn2">SUBMIT</button></td>
+              </form>
+              </tr>
+          {% endif %}  
+          {% if client.sem %}
+              <tr>
+                <form action="" method="post">{% csrf_token %}
+              <td style="color:white;" data-bs-toggle="modal" data-bs-target="#wrk_3" id="tsk3">{{client.sem}}</td>
+             
+              <td style="color:white;">
+                  <input value="SELECT EXECUTIVE" class="form-control"  data-bs-toggle="modal" data-bs-target="#select_exe_3" type="button">
+              </td>  
+              <td><input class="form-control" type="date" name="d1" id="sdate3"></td>
+              <td><input class="form-control" type="date" name="d2" id="edate3"></td>
+              <td><button class="btn btn-outline-success" id="btn3">SUBMIT</button></td>
+              </form>
+              </tr>
+          {% endif %}  
+          {% if client.em %}
+              <tr>
+                <form action="" method="post">{% csrf_token %}
+              <td style="color:white;" data-bs-toggle="modal" data-bs-target="#wrk_4" id="tsk4">{{client.em}}</td>
+             
+              <td style="color:white;">
+                  <input value="SELECT EXECUTIVE" class="form-control"  data-bs-toggle="modal" data-bs-target="#select_exe_4" type="button">
+              </td>  
+              <td><input class="form-control" type="date" name="d1" id="sdate4"></td>
+              <td><input class="form-control" type="date" name="d2" id="edate4"></td>
+              <td><button class="btn btn-outline-success" id="btn4">SUBMIT</button></td>
+              </form>
+              </tr>
+          {% endif %}  
+          {% if client.cm %}
+              <tr>
+                <form action="" method="post">{% csrf_token %}
+              <td style="color:white;" data-bs-toggle="modal" data-bs-target="#wrk_5" id="tsk5">{{client.cm}}</td>
+             
+              <td style="color:white;">
+                  <input value="SELECT EXECUTIVE" class="form-control"  data-bs-toggle="modal" data-bs-target="#select_exe_5" type="button">
+              </td>  
+              <td><input class="form-control" type="date" name="d1" id="sdate5"></td>
+              <td><input class="form-control" type="date" name="d2" id="edate5"></td>
+              <td><button class="btn btn-outline-success" id="btn5">SUBMIT</button></td>
+              </form>
+              </tr>
+          {% endif %}  
+          {% if client.am %}
+              <tr>
+                <form action="" method="post">{% csrf_token %}
+              <td style="color:white;" data-bs-toggle="modal" data-bs-target="#wrk_6" id="tsk6">{{client.am}}</td>
+             
+              <td style="color:white;">
+                  <input value="SELECT EXECUTIVE" class="form-control"  data-bs-toggle="modal" data-bs-target="#select_exe_6" type="button">
+              </td>  
+              <td><input class="form-control" type="date" name="d1" id="sdate6"></td>
+              <td><input class="form-control" type="date" name="d2" id="edate6"></td>
+              <td><button class="btn btn-outline-success" id="btn6">SUBMIT</button></td>
+              </form>
+              </tr>
+          {% endif %}  
+          {% if client.mm %}
+              <tr>
+                <form action="" method="post">{% csrf_token %}
+              <td style="color:white;" data-bs-toggle="modal" data-bs-target="#wrk_7" id="tsk7">{{client.mm}}</td>
+             
+              <td style="color:white;">
+                  <input value="SELECT EXECUTIVE" class="form-control"  data-bs-toggle="modal" data-bs-target="#select_exe_7" type="button">
+              </td>  
+              <td><input class="form-control" type="date" name="d1" id="sdate7"></td>
+              <td><input class="form-control" type="date" name="d2" id="edate7"></td>
+              <td><button class="btn btn-outline-success" id="btn7">SUBMIT</button></td>
+              </form>
+              </tr>
+          {% endif %}  
+          {% if client.vm %}
+              <tr>
+                <form action="" method="post">{% csrf_token %}
+              <td style="color:white;" data-bs-toggle="modal" data-bs-target="#wrk_8" id="tsk8">{{client.vm}}</td>
+             
+              <td style="color:white;">
+                  <input value="SELECT EXECUTIVE" class="form-control"  data-bs-toggle="modal" data-bs-target="#select_exe_8" type="button">
+              </td>  
+              <td><input class="form-control" type="date" name="d1" id="sdate8"></td>
+              <td><input class="form-control" type="date" name="d2" id="edate8"></td>
+              <td><button class="btn btn-outline-success" id="btn8">SUBMIT</button></td>
+              </form>
+              </tr>
+          {% endif %}  
+          {% if client.smo %}
+              <tr>
+                <form action="" method="post">{% csrf_token %}
+              <td style="color:white;" data-bs-toggle="modal" data-bs-target="#wrk_9" id="tsk9">{{client.smo}}</td>
+             
+              <td style="color:white;">
+                  <input value="SELECT EXECUTIVE" class="form-control"  data-bs-toggle="modal" data-bs-target="#select_exe_9" type="button">
+              </td>  
+              <td><input class="form-control" type="date" name="d1" id="sdate9"></td>
+              <td><input class="form-control" type="date" name="d2" id="edate9"></td>
+              <td><button class="btn btn-outline-success" id="btn9">SUBMIT</button></td>
+              </form>
+              </tr>
+          {% endif %}  
+          {% if client.lc %}
+              <tr>
+                <form action="" method="post">{% csrf_token %}
+              <td style="color:white;" data-bs-toggle="modal" data-bs-target="#wrk_10" id="tsk10">{{client.lc}}</td>
+             
+              <td style="color:white;">
+                  <input value="SELECT EXECUTIVE" class="form-control"  data-bs-toggle="modal" data-bs-target="#select_exe_10" type="button">
+              </td>  
+              <td><input class="form-control" type="date" name="d1" id="sdate10"></td>
+              <td><input class="form-control" type="date" name="d2" id="edate10"></td>
+              <td><button class="btn btn-outline-success" id="btn10">SUBMIT</button></td>
+              </form>
+              </tr>
+          {% endif %}  
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="rowmt-5 hidden modal fade" id="wrk_1">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">ABOUT WORK</div>
+
+          
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2 text-light" style="color:white;">Description</div>
+              </div>
+              <div class="col">
+                <textarea class="form-control ml-3 mt-2" name="a" rows="8" cols="100" style="height: 100%;" id="des1">{{client.seo_txt}}</textarea>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Download File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if client.seo_file %}
+                    <a href="{{client.seo_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD</a>
+                      {% else  %}
+                      <a href=""  style="text-decoration:none;" class="text-success" download>No File Attached</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+
+              <div class="row mt-1">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Upload File</div>
+                </div>
+                <div class="col-md-8 ">
+                  {% if client.seo_file %}
+                  <input name="file" class="drop form-control ml-3 mt-2" id="fl1"  type="file" value="">
+                  {% endif %}
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                <input type="radio" id="option1" name="sub_tsk" value="On page" onclick="check_seo1()">
+                <label for="option1">On page</label>
+                </div>
+                <div class="col-md-6">
+                <input type="radio" id="option2" name="sub_tsk" value="Off page" onclick="check_seo2()">      
+                <label for="option2">Off page</label>       
+                </div>
+              </div> 
+              <div class="row mt-2" style="display: none;" id="seo1">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Target</div>
+                </div>
+                <div class="col-md-8">
+                  <input type="number" class="drop form-control ml-3 mt-2 text-light" value="{{client.on_pg_target}}" id="on_trgt">
+                </div>
+              </div> 
+              <div class="row mt-2" style="display: none;" id="seo2">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Target</div>
+                </div>
+                <div class="col-md-8">
+                  <input type="number" class="drop form-control ml-3 mt-2 text-light" value="{{client.off_pg_target}}" id="off_trgt">
+                </div>
+              </div> 
+            </div>
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="wrk_2">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">ABOUT WORK</div>
+
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2 text-light" style="color:white;">Description</div>
+              </div>
+              <div class="col">
+                <textarea class="form-control ml-3 mt-2" name="a" rows="8" cols="100" style="height: 100%;" id="des2">{{client.smm_txt}}</textarea>
+              </div>
+              <div class="row mt-2" >
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Target</div>
+                </div>
+                <div class="col-md-8">
+                  <input type="number" class="drop form-control ml-3 mt-2 text-light" value="{{client.smm_target}}" id="trgt2">
+                </div>
+              </div> 
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Download File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if client.smm_file %}
+                    <a href="{{client.smm_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD</a>
+                      {% else  %}
+                      <a href=""  style="text-decoration:none;" class="text-success" download>No File Attached</a>
+                      {% endif %}
+
+                    </button>
+                </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;">Upload File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <input type="file" name="file" class="drop form-control ml-3 mt-2" required id="fl2">
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="wrk_3">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">ABOUT WORK</div>
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2 text-light" style="color:white;">Description</div>
+              </div>
+              <div class="col">
+                <textarea class="form-control ml-3 mt-2" name="a" rows="8" cols="100" style="height: 100%;" id="des3">{{client.sem_txt}}</textarea>
+              </div>
+              <div class="row mt-2" >
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Target</div>
+                </div>
+                <div class="col-md-8">
+                  <input type="number" class="drop form-control ml-3 mt-2 text-light" value="{{client.sem_target}}" id="trgt3">
+                </div>
+              </div> 
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Download File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if client.sem_file %}
+                    <a href="{{client.sem_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD</a>
+                      {% else  %}
+                      <a href=""  style="text-decoration:none;" class="text-success" download>No File Attached</a>
+                      {% endif %}
+
+                    </button>
+                </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;">Upload File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <input type="file" name="file" class="drop form-control ml-3 mt-2" required id="fl3" v>
+                </div>
+  
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="wrk_4">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">ABOUT WORK</div>
+
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2 text-light" style="color:white;">Description</div>
+              </div>
+              <div class="col">
+                <textarea class="form-control ml-3 mt-2" name="a" rows="8" cols="100" style="height: 100%;" id="des4">{{client.em_txt}}</textarea>
+              </div>
+              <div class="row mt-2" >
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Target</div>
+                </div>
+                <div class="col-md-8">
+                  <input type="number" class="drop form-control ml-3 mt-2 text-light" value="{{client.em_target}}" id="trgt4">
+                </div>
+              </div> 
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Download File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if client.em_file %}
+                    <a href="{{client.em_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD</a>
+                      {% else  %}
+                      <a href=""  style="text-decoration:none;" class="text-success" download>No File Attached</a>
+                      {% endif %}
+
+                    </button>
+                </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;">Upload File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <input type="file" name="file" class="drop form-control ml-3 mt-2" required id="fl4">
+                </div>
+                
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="wrk_5">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">ABOUT WORK</div>
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2 text-light" style="color:white;">Description</div>
+              </div>
+              <div class="col">
+                <textarea class="form-control ml-3 mt-2" name="a" rows="8" cols="100" style="height: 100%;" id="des5">{{client.cm_txt}}</textarea>
+              </div>
+              <div class="row mt-2" >
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Target</div>
+                </div>
+                <div class="col-md-8">
+                  <input type="number" class="drop form-control ml-3 mt-2 text-light" value="{{client.cm_target}}" id="trgt5">
+                </div>
+              </div> 
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Download File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if client.cm_file %}
+                    <a href="{{client.cm_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD</a>
+                      {% else  %}
+                      <a href=""  style="text-decoration:none;" class="text-success" download>No File Attached</a>
+                      {% endif %}
+
+                    </button>
+                </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;">Upload File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <input type="file" name="file" class="drop form-control ml-3 mt-2" required id="fl5">
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="wrk_6">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">ABOUT WORK</div>
+
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2 text-light" style="color:white;">Description</div>
+              </div>
+              <div class="col">
+                <textarea class="form-control ml-3 mt-2" name="a" rows="8" cols="100" style="height: 100%;" id="des6">{{client.am_txt}}</textarea>
+              </div>
+              <div class="row mt-2" >
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Target</div>
+                </div>
+                <div class="col-md-8">
+                  <input type="number" class="drop form-control ml-3 mt-2 text-light" value="{{client.am_target}}" id="trgt6">
+                </div>
+              </div> 
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Download File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if client.am_file %}
+                    <a href="{{client.am_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD</a>
+                      {% else  %}
+                      <a href=""  style="text-decoration:none;" class="text-success" download>No File Attached</a>
+                      {% endif %}
+
+                    </button>
+                </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;">Upload File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <input type="file" name="file" class="drop form-control ml-3 mt-2" required id="fl6">
+                </div>
+                
+              </div>
+            </div>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="wrk_7">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">ABOUT WORK</div>
+
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2 text-light" style="color:white;">Description</div>
+              </div>
+              <div class="col">
+                <textarea class="form-control ml-3 mt-2" name="a" rows="8" cols="100" style="height: 100%;" id="des7">{{client.mm_txt}}</textarea>
+              </div>
+              <div class="row mt-2" >
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Target</div>
+                </div>
+                <div class="col-md-8">
+                  <input type="number" class="drop form-control ml-3 mt-2 text-light" value="{{client.mm_target}}" id="trgt7">
+                </div>
+              </div> 
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Download File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if client.mm_file %}
+                    <a href="{{client.mm_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD</a>
+                      {% else  %}
+                      <a href=""  style="text-decoration:none;" class="text-success" download>No File Attached</a>
+                      {% endif %}
+
+                    </button>
+                </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;">Upload File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <input type="file" name="file" class="drop form-control ml-3 mt-2" required id="fl7">
+                </div> 
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="wrk_8">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">ABOUT WORK</div>
+
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2 text-light" style="color:white;">Description</div>
+              </div>
+              <div class="col">
+                <textarea class="form-control ml-3 mt-2" name="a" rows="8" cols="100" style="height: 100%;" id="des8">{{client.vm_txt}}</textarea>
+              </div>
+              <div class="row mt-2" >
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Target</div>
+                </div>
+                <div class="col-md-8">
+                  <input type="number" class="drop form-control ml-3 mt-2 text-light" value="{{client.vm_target}}" id="trgt8">
+                </div>
+              </div> 
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Download File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if client.vm_file %}
+                    <a href="{{client.vm_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD</a>
+                      {% else  %}
+                      <a href=""  style="text-decoration:none;" class="text-success" download>No File Attached</a>
+                      {% endif %}
+
+                    </button>
+                </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;">Upload File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <input type="file" name="file" class="drop form-control ml-3 mt-2" required id="fl8">
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="wrk_9">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">ABOUT WORK</div>
+
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2 text-light" style="color:white;">Description</div>
+              </div>
+              <div class="col">
+                <textarea class="form-control ml-3 mt-2" name="a" rows="8" cols="100" style="height: 100%;" id="des9">{{client.smo_txt}}</textarea>
+              </div>
+              <div class="row mt-2" >
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Target</div>
+                </div>
+                <div class="col-md-8">
+                  <input type="number" class="drop form-control ml-3 mt-2 text-light" value="{{client.smo_target}}" id="trgt9">
+                </div>
+              </div> 
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Download File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if client.smo_file %}
+                    <a href="{{client.smo_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD</a>
+                      {% else  %}
+                      <a href=""  style="text-decoration:none;" class="text-success" download>No File Attached</a>
+                      {% endif %}
+
+                    </button>
+                </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;">Upload File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <input type="file" name="file" class="drop form-control ml-3 mt-2" required id="fl9">
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="wrk_10">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">ABOUT WORK</div>
+
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2 text-light" style="color:white;">Description</div>
+              </div>
+              <div class="col">
+                <textarea class="form-control ml-3 mt-2" name="a" rows="8" cols="100" style="height: 100%;" id="des10">{{client.lc_txt}}</textarea>
+              </div>
+              <div class="row mt-2" >
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Target</div>
+                </div>
+                <div class="col-md-8">
+                  <input type="number" class="drop form-control ml-3 mt-2 text-light" value="{{client.lc_target}}" id="trgt10">
+                </div>
+              </div> 
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;" >Download File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if client.lc_file %}
+                    <a href="{{client.lc_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD</a>
+                      {% else  %}
+                      <a href=""  style="text-decoration:none;" class="text-success" download>No File Attached</a>
+                      {% endif %}
+
+                    </button>
+                </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col-md-4">
+                  <div class=" mr-2 ml-3 mt-2 text-light" style="color:white;">Upload File</div>
+                </div>
+                <div class="col-md-8 ">
+                  <input type="file" name="file" class="drop form-control ml-3 mt-2" required id="fl10">
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="select_exe_1">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">Choose Executive</div>
+          <div class="row mt-3">
+           
+              {% csrf_token %}
+            <div class="col-md-4">
+              {% for j in exe %}
+          <input type="checkbox" id="myCheckbox" name="check1" value="{{j.fullname}}">
+            <label for="myCheckbox">{{j.fullname}}</label><br>
+            {% endfor %}
+           </div> 
+          
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rowmt-5 hidden modal fade" id="select_exe_2">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">Choose Executive</div>
+          <div class="row mt-3">
+            
+              {% csrf_token %}
+            <div class="col-md-4">
+              {% for j in exe %}
+          <input type="checkbox" id="myCheckbox" name="check2" value="{{j.fullname}}">
+            <label for="myCheckbox">{{j.fullname}}</label><br>
+            {% endfor %}
+           </div> 
+           
+          
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rowmt-5 hidden modal fade" id="select_exe_3">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">Choose Executive</div>
+          <div class="row mt-3">
+           
+              {% csrf_token %}
+            <div class="col-md-4">
+              {% for j in exe %}
+          <input type="checkbox" id="myCheckbox" name="check3" value="{{j.fullname}}">
+            <label for="myCheckbox">{{j.fullname}}</label><br>
+            {% endfor %}
+           </div> 
+          
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="select_exe_4">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">Choose Executive</div>
+          <div class="row mt-3">
+          
+              {% csrf_token %}
+            <div class="col-md-4">
+              {% for j in exe %}
+          <input type="checkbox" id="myCheckbox" name="check4" value="{{j.fullname}}">
+            <label for="myCheckbox">{{j.fullname}}</label><br>
+            {% endfor %}
+           </div> 
+          
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="select_exe_5">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">Choose Executive</div>
+          <div class="row mt-3">
+           
+              {% csrf_token %}
+            <div class="col-md-4">
+              {% for j in exe %}
+          <input type="checkbox" id="myCheckbox" name="check5" value="{{j.fullname}}">
+            <label for="myCheckbox">{{j.fullname}}</label><br>
+            {% endfor %}
+           </div> 
+          
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rowmt-5 hidden modal fade" id="select_exe_6">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;">Choose Executive</div>
+              <div class="row mt-3">
+         
+              {% csrf_token %}
+                <div class="col-md-4">
+              {% for j in exe %}
+              <input type="checkbox" id="myCheckbox" name="check6" value="{{j.fullname}}">
+              <label for="myCheckbox">{{j.fullname}}</label><br>
+            {% endfor %}
+           </div> 
+           
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rowmt-5 hidden modal fade" id="select_exe_7">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">Choose Executive</div>
+          <div class="row mt-3">
+          
+              {% csrf_token %}
+            <div class="col-md-4">
+              {% for j in exe %}
+          <input type="checkbox" id="myCheckbox" name="check7" value="{{j.fullname}}">
+            <label for="myCheckbox">{{j.fullname}}</label><br>
+            {% endfor %}
+           </div> 
+           
+           
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rowmt-5 hidden modal fade" id="select_exe_8">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">Choose Executive</div>
+          <div class="row mt-3">
+          
+              {% csrf_token %}
+            <div class="col-md-4">
+              {% for j in exe %}
+          <input type="checkbox" id="myCheckbox" name="check8" value="{{j.fullname}}">
+            <label for="myCheckbox">{{j.fullname}}</label><br>
+            {% endfor %}
+           </div> 
+           
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
+<div class="rowmt-5 hidden modal fade" id="select_exe_9">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">Choose Executive</div>
+          <div class="row mt-3">
+           
+              {% csrf_token %}
+            <div class="col-md-4">
+              {% for j in exe %}
+          <input type="checkbox" id="myCheckbox" name="check9" value="{{j.fullname}}">
+            <label for="myCheckbox">{{j.fullname}}</label><br>
+            {% endfor %}
+           </div> 
+          
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="select_exe_10">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">Choose Executive</div>
+          <div class="row mt-3">
+          
+              {% csrf_token %}
+            <div class="col-md-4">
+              {% for j in exe %}
+          <input type="checkbox" id="myCheckbox" name="check10" value="{{j.fullname}}">
+            <label for="myCheckbox">{{j.fullname}}</label><br>
+            {% endfor %}
+           </div> 
+           
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
+<script>
+$(document).on("click","#btn1",function(){
+            var array = [];
+            $("input:checkbox[name=check1]:checked").each(function() {
+                array.push($(this).val());
+            });
+    
+      var form_data = new FormData();
+      var sel = $("input:radio[name='sub_tsk']:checked").val()
+form_data.append('task', $("#tsk1").text());
+form_data.append('des', $("#des1").val());
+form_data.append('sdate', $("#sdate1").val());
+form_data.append('edate', $("#edate1").val());
+form_data.append('ontrgt', $("#on_trgt").val());
+form_data.append('offtrgt', $("#off_trgt").val());
+form_data.append('array', JSON.stringify(array));
+form_data.append('file', $('#fl1')[0].files[0]);
+form_data.append('sub_tsk', sel);
+
+
+
+$.ajax({
+    url: "{% url 'tl_work_add' client.id %}",
+    type: 'POST',
+    headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+    data: form_data,
+    processData: false,
+    contentType: false,
+    success: function(response) {
+        if (response.message === 'success') {
+            
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus, errorThrown);
+    }
+});
+  }
+  
+  
+              
+);
+$(document).on("click","#btn2",function(){
+            var array = [];
+            $("input:checkbox[name=check2]:checked").each(function() {
+                array.push($(this).val());
+            });
+    
+      var form_data = new FormData();
+form_data.append('task', $("#tsk2").text());
+form_data.append('des', $("#des2").val());
+form_data.append('sdate', $("#sdate2").val());
+form_data.append('edate', $("#edate2").val());
+form_data.append('trgt', $("#trgt2").val());
+form_data.append('array', JSON.stringify(array));
+form_data.append('file', $('#fl2')[0].files[0]);
+
+$.ajax({
+    url: "{% url 'tl_work_add' client.id %}",
+    type: 'POST',
+    headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+    data: form_data,
+    processData: false,
+    contentType: false,
+    success: function(response) {
+        if (response.message === 'success') {
+            $('#modalForm')[0].reset();
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus, errorThrown);
+    }
+});
+  }
+  
+  
+              
+);
+
+$(document).on("click","#btn3",function(){
+            var array = [];
+            $("input:checkbox[name=check3]:checked").each(function() {
+                array.push($(this).val());
+            });
+    
+      var form_data = new FormData();
+form_data.append('task', $("#tsk3").text());
+form_data.append('des', $("#des3").val());
+form_data.append('sdate', $("#sdate3").val());
+form_data.append('edate', $("#edate3").val());
+form_data.append('trgt', $("#trgt3").val());
+form_data.append('array', JSON.stringify(array));
+form_data.append('file', $('#fl3')[0].files[0]);
+
+$.ajax({
+    url: "{% url 'tl_work_add' client.id %}",
+    type: 'POST',
+    headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+    data: form_data,
+    processData: false,
+    contentType: false,
+    success: function(response) {
+        if (response.message === 'success') {
+            $('#modalForm')[0].reset();
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus, errorThrown);
+    }
+});
+  }
+  
+  
+              
+);
+
+$(document).on("click","#btn4",function(){
+            var array = [];
+            $("input:checkbox[name=check4]:checked").each(function() {
+                array.push($(this).val());
+            });
+    
+      var form_data = new FormData();
+form_data.append('task', $("#tsk4").text());
+form_data.append('des', $("#des4").val());
+form_data.append('sdate', $("#sdate4").val());
+form_data.append('edate', $("#edate4").val());
+form_data.append('trgt', $("#trgt4").val());
+form_data.append('array', JSON.stringify(array));
+form_data.append('file', $('#fl4')[0].files[0]);
+
+$.ajax({
+    url: "{% url 'tl_work_add' client.id %}",
+    type: 'POST',
+    headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+    data: form_data,
+    processData: false,
+    contentType: false,
+    success: function(response) {
+        if (response.message === 'success') {
+            $('#modalForm')[0].reset();
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus, errorThrown);
+    }
+});
+  }
+  
+  
+              
+);
+$(document).on("click","#btn5",function(){
+            var array = [];
+            $("input:checkbox[name=check5]:checked").each(function() {
+                array.push($(this).val());
+            });
+    
+      var form_data = new FormData();
+form_data.append('task', $("#tsk5").text());
+form_data.append('des', $("#des5").val());
+form_data.append('sdate', $("#sdate5").val());
+form_data.append('edate', $("#edate5").val());
+form_data.append('trgt', $("#trgt5").val());
+form_data.append('array', JSON.stringify(array));
+form_data.append('file', $('#fl5')[0].files[0]);
+
+$.ajax({
+    url: "{% url 'tl_work_add' client.id %}",
+    type: 'POST',
+    headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+    data: form_data,
+    processData: false,
+    contentType: false,
+    success: function(response) {
+        if (response.message === 'success') {
+            $('#modalForm')[0].reset();
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus, errorThrown);
+    }
+});
+  }
+  
+  
+              
+);
+$(document).on("click","#btn6",function(){
+            var array = [];
+            $("input:checkbox[name=check6]:checked").each(function() {
+                array.push($(this).val());
+            });
+    
+      var form_data = new FormData();
+form_data.append('task', $("#tsk6").text());
+form_data.append('des', $("#des6").val());
+form_data.append('sdate', $("#sdate6").val());
+form_data.append('edate', $("#edate6").val());
+form_data.append('trgt', $("#trgt6").val());
+form_data.append('array', JSON.stringify(array));
+form_data.append('file', $('#fl6')[0].files[0]);
+
+$.ajax({
+    url: "{% url 'tl_work_add' client.id %}",
+    type: 'POST',
+    headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+    data: form_data,
+    processData: false,
+    contentType: false,
+    success: function(response) {
+        if (response.message === 'success') {
+            $('#modalForm')[0].reset();
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus, errorThrown);
+    }
+});
+  }
+  
+  
+              
+);
+$(document).on("click","#btn7",function(){
+            var array = [];
+            $("input:checkbox[name=check7]:checked").each(function() {
+                array.push($(this).val());
+            });
+    
+      var form_data = new FormData();
+form_data.append('task', $("#tsk7").text());
+form_data.append('des', $("#des7").val());
+form_data.append('sdate', $("#sdate7").val());
+form_data.append('edate', $("#edate7").val());
+form_data.append('trgt', $("#trgt7").val());
+form_data.append('array', JSON.stringify(array));
+form_data.append('file', $('#fl7')[0].files[0]);
+
+$.ajax({
+    url: "{% url 'tl_work_add' client.id %}",
+    type: 'POST',
+    headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+    data: form_data,
+    processData: false,
+    contentType: false,
+    success: function(response) {
+        if (response.message === 'success') {
+            $('#modalForm')[0].reset();
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus, errorThrown);
+    }
+});
+  }
+  
+  
+              
+);
+$(document).on("click","#btn8",function(){
+            var array = [];
+            $("input:checkbox[name=check8]:checked").each(function() {
+                array.push($(this).val());
+            });
+    
+      var form_data = new FormData();
+form_data.append('task', $("#tsk8").text());
+form_data.append('des', $("#des8").val());
+form_data.append('sdate', $("#sdate8").val());
+form_data.append('edate', $("#edate8").val());
+form_data.append('trgt', $("#trgt8").val());
+form_data.append('array', JSON.stringify(array));
+form_data.append('file', $('#fl8')[0].files[0]);
+
+$.ajax({
+    url: "{% url 'tl_work_add' client.id %}",
+    type: 'POST',
+    headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+    data: form_data,
+    processData: false,
+    contentType: false,
+    success: function(response) {
+        if (response.message === 'success') {
+            $('#modalForm')[0].reset();
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus, errorThrown);
+    }
+});
+  }
+  
+  
+              
+);
+$(document).on("click","#btn9",function(){
+            var array = [];
+            $("input:checkbox[name=check9]:checked").each(function() {
+                array.push($(this).val());
+            });
+    
+      var form_data = new FormData();
+form_data.append('task', $("#tsk9").text());
+form_data.append('des', $("#des9").val());
+form_data.append('sdate', $("#sdate9").val());
+form_data.append('edate', $("#edate9").val());
+form_data.append('trgt', $("#trgt9").val());
+form_data.append('array', JSON.stringify(array));
+form_data.append('file', $('#fl9')[0].files[0]);
+
+$.ajax({
+    url: "{% url 'tl_work_add' client.id %}",
+    type: 'POST',
+    headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+    data: form_data,
+    processData: false,
+    contentType: false,
+    success: function(response) {
+        if (response.message === 'success') {
+            $('#modalForm')[0].reset();
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus, errorThrown);
+    }
+});
+  }
+  
+  
+              
+);
+$(document).on("click","#btn10",function(){
+            var array = [];
+            $("input:checkbox[name=check10]:checked").each(function() {
+                array.push($(this).val());
+            });
+    
+      var form_data = new FormData();
+form_data.append('task', $("#tsk10").text());
+form_data.append('des', $("#des10").val());
+form_data.append('sdate', $("#sdate10").val());
+form_data.append('edate', $("#edate10").val());
+form_data.append('trgt', $("#trgt10").val());
+form_data.append('array', JSON.stringify(array));
+form_data.append('file', $('#fl10')[0].files[0]);
+
+$.ajax({
+    url: "{% url 'tl_work_add' client.id %}",
+    type: 'POST',
+    headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+    data: form_data,
+    processData: false,
+    contentType: false,
+    success: function(response) {
+        if (response.message === 'success') {
+            $('#modalForm')[0].reset();
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus, errorThrown);
+    }
+});
+  }
+  
+  
+              
+);
+</script>
+<script>
+  $(document).ready(function () {
+    $("#search").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+
+  
+</script>
+<script type="text/javascript">
+  function setselected(id) {
+    $('input[name="selected"]').val(id);
+  }
+</script>
+<script>
+  function check_seo1(){
+    var chk_seo=document.getElementById("option1").checked;
+    var onpg= document.getElementById('seo1');
+    var offpg= document.getElementById('seo2');
+    
+    
+    if (chk_seo==true){
+      onpg.style=('display: block');
+      offpg.style=('display: none');
+      
+    }
+  }
+  function check_seo2(){
+    var chk_seo=document.getElementById("option2").checked;
+    var onpg= document.getElementById('seo1');
+    var offpg= document.getElementById('seo2');
+    
+    
+    if (chk_seo==true){
+      offpg.style=('display: block');
+      onpg.style=('display: none');
+      
+    }
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'dm_manager/dm_ base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row mt-5">
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th scope="col" style="color:#6C7293;">Telecaller name</th>
+              <th scope="col" style="color:#6C7293;">Name</th>
+              <th scope="col" style="color:#6C7293;">Email ID</th>
+              <th scope="col" style="color:#6C7293;">Phone Number</th>
+              <th scope="col" style="color:#6C7293;">Location</th>
+              <th scope="col" style="color:#6C7293;">Qualification</th>
+              <th scope="col" style="color:#6C7293;">Year Of Passout</th>
+              <th scope="col" style="color:#6C7293;">College Name</th>
+              <th scope="col" style="color:#6C7293;">Internship</th>
+              <th scope="col" style="color:#6C7293;">Internship Institute</th>
+              <th scope="col" style="color:#6C7293;">Internship Topic</th>
+              <th scope="col" style="color:#6C7293;">Internship Start</th>
+              <th scope="col" style="color:#6C7293;">Internship End</th>
+              <th scope="col" style="color:#6C7293;">Fresher/Experienced</th>
+              <th scope="col" style="color:#6C7293;">Previous Experienced</th>
+              <th scope="col" style="color:#6C7293;">Company Name</th>
+              <th scope="col" style="color:#6C7293;">Register For What</th>
+              <th scope="col" style="color:#6C7293;">Status</th>
+              <th scope="col" style="color:#6C7293;">Follow Up Details</th>
+              <th scope="col" style="color:#6C7293;">Assign Status</th>
+              <th scope="col" style="color:#6C7293;">Assign Date</th>
+              <th scope="col" style="color:#6C7293;">Executive ID</th>
+              <th scope="col" style="color:#6C7293;">Duration</th>
+              <th scope="col" style="color:#6C7293;">Datamanager ID</th>
+              <th scope="col" style="color:#6C7293;">Telecaller ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for lead in assigned_leads %}
+            <tr>
+              <td>{{ lead.telecaller}}</td>
+              <td>{{ lead.checkbox.name }}</td>
+              <td>{{ lead.checkbox.email_id }}</td>
+              <td>{{ lead.checkbox.ph_no }}</td>
+              <td>{{ lead.checkbox.location }}</td>
+              <td>{{ lead.checkbox.qualification }}</td>
+              <td>{{ lead.checkbox.year_of_passout }}</td>
+              <td>{{ lead.checkbox.collegename }}</td>
+              <td>{{ lead.checkbox.internship }}</td>
+              <td>{{ lead.checkbox.internship_institute }}</td>
+              <td>{{ lead.checkbox.internship_topic }}</td>
+              <td>{{ lead.checkbox.internship_start }}</td>
+              <td>{{ lead.checkbox.internship_end }}</td>
+              <td>{{ lead.checkbox.fresher_experience }}</td>
+              <td>{{ lead.checkbox.previous_experience }}</td>
+              <td>{{ lead.checkbox.company_name }}</td>
+              <td>{{ lead.checkbox.register }}</td>
+              <td>{{ lead.checkbox.status }}</td>
+              <td>{{ lead.checkbox.followup_dt }}</td>
+              <td>{{ lead.checkbox.assign_status }}</td>
+              <td>{{ lead.checkbox.assign_dt }}</td>
+              <td>{{ lead.checkbox.executive }}</td>
+              <td>{{ lead.checkbox.duration }}</td>
+              <td>{{ lead.checkbox.data_manager_id }}</td>
+              <td>{{ lead.checkbox.telecaller_id }}</td>
+                           
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

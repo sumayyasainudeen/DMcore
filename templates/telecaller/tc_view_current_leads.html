@@ -1,0 +1,494 @@
+{%extends 'telecaller/tc_base.html'%}
+{%load static%}
+{%block content%}
+
+<style>
+  .col-md-4{
+    margin-bottom: 30px;
+  }
+  .col-md-8{
+    margin-bottom: 30px;
+  }
+</style>
+
+
+<div class="row pt-3" style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">Current Leads</div>
+</div>
+<div class="row mt-4">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title">Current Leads</div>
+      <input type="text" class="form-control text-light" id="search" placeholder="search...">
+      <div class="table-responsive">
+        <table class="table" id="lead-table">
+          <thead>
+            <tr>
+              <th scope="col" style="color:#6C7293;">Name</th>
+              <th scope="col" style="color:#6C7293;">Email</th>
+              <th scope="col" style="color:#6C7293;">Contact No</th>
+              <th scope="col" style="color:#6C7293; ">Status</th>
+              <th scope="col" style="color:#6C7293; ">FollowUp Date</th>
+            </tr>
+          </thead>
+          <tbody id="myTable">
+
+              {% for cl in cur_leads %}
+              {% if cl.status != "Closed"%}
+           
+            <tr>
+              <td style="color:white;">{{cl.name}}</td>
+             
+              <td style="color:white;">{{cl.email_id}}</td>
+              <td style="color:white;">{{cl.ph_no}}</td>
+              <td class="text-left">
+                <select id="status{{ forloop.counter }}" name="status" class="bg-transparent text-white rounded border-0" 
+                onchange="handleStatusChange('{{forloop.counter}}','{{cl.id}}')">
+                  <option class="bg-dark" value="{{cl.status}}"  selected>{{cl.status}}</option>
+                  <option class="bg-dark" value="Closed" >Closed</option>
+                  <option class="bg-dark" value="Follow up" >Follow up</option>
+                  <option class="bg-dark" value="Rejected" >Rejected</option>
+                  <option class="bg-dark" value="Interested" >Interested</option>
+                  <option class="bg-dark" value="Want to visit office" >Want to visit office</option>
+                  <option class="bg-dark" value="Will inform" >Will inform</option>
+                  <option class="bg-dark" value="Payment issue " >Payment issue </option>
+                  <option class="bg-dark" value="Not interested" >Not interested</option>
+                  <option class="bg-dark" value="Will contact if interested" >Will contact if interested</option>
+                  <option class="bg-dark" value="Already contacted" >Already contacted</option>
+                  <option class="bg-dark" value="Already joined in Altos" >Already joined in Altos</option>
+                  <option class="bg-dark" value="Already joined for another training " >Already joined for another training </option>
+                  <option class="bg-dark" value="Please send details through WhatsApp" >Please send details through WhatsApp</option>
+                  <option class="bg-dark" value="Join later" >Join later</option>
+                  <option class="bg-dark" value="Call you back" >Call you back</option>
+                  <option class="bg-dark" value="Not interested for payment" >Not interested for payment</option>
+                  <option class="bg-dark" value="Recently join the job" >Recently join the job</option>
+                  <option class="bg-dark" value="Already done another internship recently" >Already done another internship recently</option>
+                  <option class="bg-dark" value="looking for direct job" >looking for direct job</option>
+                  <option class="bg-dark" value="payment is not affordable" >payment is not affordable</option>
+                  <option class="bg-dark" value="Will contact after enquiry" >Will contact after enquiry</option>
+                </select>
+              </td>
+              <!-- <td style="color:white;">{{cl.followup_dt}}</td> -->
+              <td>
+                <!-- {% if cl.followup_dt == 'None' %}
+                <input type="date" class="bg-dark text-white border-0" value="0000-00-00" >
+                {% else %} -->
+                <input type="date" class="bg-dark text-white border-0" id="fdate{{ forloop.counter }}" value="{{ cl.followup_dt|date:'Y-m-d' }}" 
+                onchange="handleFollowup_dtChange('{{forloop.counter}}','{{cl.id}}')">
+                <!-- {% endif %} -->
+
+              </td>
+             
+            </tr>
+            {%else%}
+            {%endif%}
+            {%endfor%}
+        
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+
+    function handleStatusChange(count,id) {
+      var c= count;
+      var i= id;
+      var s_value = document.getElementById(`status${c}`).value;
+      $.ajax({
+          type: "GET",
+          url: "{% url 'tc_update_status' %}", 
+          data: {
+            id: i,
+            value: s_value
+          },
+          success: function(response) {
+            console.log(response.status);
+            document.getElementById(`fdate${c}`).value = '';
+          }
+      });
+
+    } 
+</script>
+<script>
+  function handleFollowup_dtChange(count,id) {
+      var c= count;
+      var i= id;
+      var d_value = document.getElementById(`fdate${c}`).value;
+      $.ajax({
+          type: "GET",
+          url: "{% url 'tc_update_followup_dt' %}", 
+          data: {
+            id: i,
+            value: d_value
+          },
+          success: function(response) {
+            console.log(response.status);
+           
+          }
+    });
+
+    }
+
+</script>
+
+
+
+
+
+
+
+<script>
+  function view_sub(el, id){
+      var elem=el
+      var ids=id
+      
+      $.ajax({
+          type: "GET",
+          url: "{% url 'get_sub' %}",
+          data: {
+              ele : elem,
+              idss:ids,
+              
+          },
+          success:function(response){
+                  console.log(response)
+           
+                  head = response.hd
+                  des = response.des
+                  fil = response.fl
+           
+                  document.getElementById('sub_des').innerHTML = des;
+                  document.getElementById('heads').innerHTML = head;
+                  flr=document.getElementById('files')
+             
+                  flr.href = (`/media/${fil}`)
+                  
+
+          }});
+
+      
+  }
+</script>
+<script>
+  $(document).ready(function(){
+            
+            $('#off_sub_btn').click(function(){
+            
+                $('#off_sub').append(
+                    `
+                    <div class="col-md-12 ">
+                    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='off_sub_lb[]' id="sub_lb" >
+                   
+                  </div>
+                  <div class="col-md-12">
+                    <textarea name='off_sub_txt[]' id="sub_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; " ></textarea>
+                      <input type="file" name='off_sub_file[]' id="sub_file" class="form-control mt-2 "
+                      style="text-decoration:none;background-color: #191c24;color:#6C7293 ;">
+                  </div>
+                                                    
+                    `
+                );
+            });
+          });
+</script> 
+<script>
+  $(document).ready(function(){
+            
+            $('#lc_col_btn').click(function(){
+            
+                $('#lc_col').append(
+                    `
+                    <div class="col-md-12 ">
+                    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_lb[]' id="lc_lb" >
+                   
+                  </div>
+                  <div class="col-md-12">
+                    <textarea name='lc_txt[]' id="lc_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; " ></textarea>
+                      <input type="file" name='lc_file[]' id="lc_file" class="form-control mt-2 "
+                      style="text-decoration:none;background-color: #191c24;color:#6C7293 ;">
+                  </div>
+                                                    
+                    `
+                );
+            });
+          });
+</script>
+<script>
+  $(document).ready(function(){
+            
+            $('#add_sub').click(function(){
+            
+                $('#sub_info').append(
+                    `
+                    <div class="col-md-12 ">
+                    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='sub_lb[]' id="sub_lb" >
+                   
+                  </div>
+                  <div class="col-md-12">
+                    <textarea name='sub_txt[]' id="sub_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; " ></textarea>
+                      <input type="file" name='sub_file[]' id="sub_file" class="form-control mt-2 "
+                      style="text-decoration:none;background-color: #191c24;color:#6C7293 ;">
+                  </div>
+                                                    
+                    `
+                );
+            });
+          });
+</script>
+
+<script>     
+function check_pr(){
+    var chk_pr=document.getElementById("pr").checked;
+    var textarea = document.getElementById('pr_txt');
+    var files = document.getElementById('pr_file');
+    if (chk_pr==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_art(){
+    var chk_art=document.getElementById("art").checked;
+    var textarea = document.getElementById('art_txt');
+    var files = document.getElementById('art_file');
+    if (chk_art==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_blg(){
+    var chk_blg=document.getElementById("blg").checked;
+    var textarea = document.getElementById('blg_txt');
+    var files = document.getElementById('blg_file');
+    if (chk_blg==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_cls(){
+    var chk_cls=document.getElementById("cls").checked;
+    var textarea = document.getElementById('cls_txt');
+    var files = document.getElementById('cls_file');
+    if (chk_cls==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+  function check_gst(){
+    var chk_gst=document.getElementById("gst").checked;
+    var textarea = document.getElementById('gst_txt');
+    var files = document.getElementById('gst_file');
+    if (chk_gst==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_bk(){
+    var chk_bk=document.getElementById("bk").checked;
+    var textarea = document.getElementById('bk_txt');
+    var files = document.getElementById('bk_file');
+    if (chk_bk==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+</script>
+
+<script>
+  function check_fb(){
+    var chk_fb=document.getElementById("fb").checked;
+    var textarea = document.getElementById('fb_txt');
+    var files = document.getElementById('fb_file');
+    if (chk_fb==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_tw(){
+    var chk_tw=document.getElementById("tw").checked;
+    var textarea = document.getElementById('tw_txt');
+    var files = document.getElementById('tw_file');
+    if (chk_tw==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_pin(){
+    var chk_pin=document.getElementById("pin").checked;
+    var textarea = document.getElementById('pin_txt');
+    var files = document.getElementById('pin_file');
+    if (chk_pin==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_link(){
+    var chk_link=document.getElementById("link").checked;
+    var textarea = document.getElementById('link_txt');
+    var files = document.getElementById('link_file');
+    if (chk_link==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_insta(){
+    var chk_insta=document.getElementById("insta").checked;
+    var textarea = document.getElementById('insta_txt');
+    var files = document.getElementById('insta_file');
+    if (chk_insta==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_tumb(){
+    var chk_tumb=document.getElementById("tumb").checked;
+    var textarea = document.getElementById('tumb_txt');
+    var files = document.getElementById('tumb_file');
+    if (chk_tumb==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_diry(){
+    var chk_diry=document.getElementById("diry").checked;
+    var textarea = document.getElementById('diry_txt');
+    var files = document.getElementById('diry_file');
+    if (chk_diry==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_yt(){
+    var chk_yt=document.getElementById("yt").checked;
+    var textarea = document.getElementById('yt_txt');
+    var files = document.getElementById('yt_file');
+    if (chk_yt==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_qra(){
+    var chk_qra=document.getElementById("qra").checked;
+    var textarea = document.getElementById('qra_txt');
+    var files = document.getElementById('qra_file');
+    if (chk_qra==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  
+</script>
+<script>
+  $(document).ready(function () {
+    $("#search").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  function setselected(id) {
+    $('input[name="selected"]').val(id);
+  }
+</script>
+
+
+
+{% endblock %}
+

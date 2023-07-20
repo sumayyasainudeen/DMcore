@@ -1,0 +1,124 @@
+{%extends 'executive/ex_base.html'%}
+<!-- DEVprojects -->
+{%load static%}
+{%block content%}
+<style>
+  .col-md-4{
+    margin-bottom: 30px;
+  }
+  .col-md-8{
+    margin-bottom: 30px;
+  }
+</style>
+
+
+
+<div class="row mt-4" style="background-color: #191c24">
+
+    <div class="card ">
+        <div class="card-body">
+          <div class="container">
+           
+            <div class="text-info" style="font-size: 20px;font-weight: 600;">Work Details</div>
+
+            <div class="row mt-5">
+              <div class="col-md-1"></div>
+              <div class="col-md-2 mt-2" style="color:white;">Start date</div>
+              <div class="col-md-2 mt-2">
+                <div class="ml-3" style="color:white;">{{client.start_date}}</div>
+              </div>
+              <div class="col-md-2"></div>
+              <div class="col-md-2 mt-2" style="color:white;"> End date</div>
+              <div class="col-md-2 mt-2" style="color:white;"> {{client.end_date}}</div>
+              <div class="col-md-1"></div>
+            </div>
+          </div>
+
+          <div class="row mt-5 ml-2">
+            <div class="col-md-1"></div>
+            <div class="col-md-2 mt-2" style="color:white;">Assigned to</div>
+            <div class="col-md-2 mt-2">
+              <div style="color:white;">{{usr.fullname}}</div>
+            </div>
+            <div class="col-md-2"></div>
+            
+            <div class="col-md-1"></div>
+          </div>
+
+          
+
+        </div>
+
+
+      </div>
+
+      <div class="container mt-3 " style="border-top:1px solid grey;">
+        <div class="text-info pt-4" style="font-size: 20px;font-weight: 600;">Task Details</div>
+        <div class="pt-3 " style="margin-left:20px;color:white;">{{client.task}}</div>
+        {% if client.file_attached == ""%}
+        <div class="pt-3 " style="margin-left:20px;color:white;"><button type="submit" name="submit" id="alert2" class="btn-primary Search">No File Attach</button></div>
+        {%else%}
+          <div class="pt-3 " style="margin-left:20px;color:white;"><a href="{{client.file_attached.url}}"><button type="submit" name="submit" id="alert2" class="btn-primary Search">Download Attach File</button></a></div>
+        {%endif%}
+
+        {% if client.file_2 == ""%}
+        <div class="pt-3 " style="margin-left:20px;color:white;"><button type="submit" name="submit" id="alert2" class="btn-primary Search">No File Attach</button></div>
+        {%else%}
+          <div class="pt-3 " style="margin-left:20px;color:white;"><a href="{{client.file_2.url}}"><button type="submit" name="submit" id="alert2" class="btn-primary Search">Download Attach File</button></a></div>
+        {%endif%}
+      </div>
+
+      <div class="container mt-3" style="border-top:1px solid grey;border-bottom:1px solid grey;">
+        <div class="text-info pt-4 pb-2" style="font-size: 20px;font-weight: 600;">Task Description</div>
+        <div class="row pt-1">
+          
+          <div class="col-md-12">
+            <p>{{client.description}}</p>
+          </div>
+          
+        </div>
+
+        <div class="text-info pt-4 pb-2" style="font-size: 20px;font-weight: 600;">Task Target</div>
+        <div class="row pt-1">
+          
+          <div class="col-md-12">
+            <p>{{client.target}}</p>
+          </div>
+          
+        </div>
+        {% if client.sub_task != ""%}
+        
+          <div class="text-info pt-4" style="font-size: 20px;font-weight: 600;">Sub Task Details</div>
+            
+            <div class="pt-3 " style="color:white;">{{client.sub_task}}</div>
+            <div>
+              <p></p>
+            </div>
+            <div class="text-info pt-4 pb-2" style="font-size: 20px;font-weight: 600;"> Sub Task Description</div>
+              <div class="row pt-1">
+                
+                <div class="col-md-12">
+                  <p>{{client.sub_des}}</p>
+                </div>
+                
+              </div>
+            {% if client.sub_file == ""%}
+            <div class="pt-3 " style="margin-left:20px;color:white;"><button type="submit" name="submit" id="alert2" class="btn-primary Search">No File Attach</button></div>
+            {%else%} 
+              <div class="pt-3 " style="margin-left:10px;color:white;"><a href="{{client.sub_file.url}}"><button type="submit" name="submit" id="alert2" class="btn-primary Search">Download Attach File</button></a></div>
+            {%endif%}
+              
+            </div>
+              
+            
+            </div>
+            
+          
+          </div>
+          {%else%}
+          {%endif%}
+      
+      </div>
+
+
+  {% endblock %} 

@@ -1,0 +1,130 @@
+{%extends 'head/he_base.html'%}
+{%load static%}
+{%block content%}
+
+
+<div class="row pt-3" style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">Details</div>
+</div>
+<div class="row mt-4">
+  <div class="card">
+    <div class="card-body">
+        <!-- <div style="text-align: right;">
+            <a href="" data-toggle="modal" data-target="#flt_day"style="text-decoration: none;"><button type="submit" name="submit" id="alert2" class="btn-primary Search" >Filter By Day</button></a>
+            <a href="" data-toggle="modal" data-target="#flt_month"style="text-decoration: none;"><button type="submit" name="submit" id="alert3" class="btn-primary Search" >Filter By Month</button></a>
+            <br><br>
+          </div> -->
+        <input type="text" class="form-control text-light" onkeyup="myFunction()" id="search" name="search" autocomplete="off" placeholder="Search...">
+        <br>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              
+              <th scope="col" style="color:#6C7293;">Executive</th>
+              <th scope="col" style="color:#6C7293;">Team Lead</th>
+              
+            </tr>
+          </thead>
+          <tbody id="myTable">
+
+            
+              {% for e in exes %}
+              <tr>
+                
+                <td style="color:white;">{{e.fullname}}</td>
+                {% if e.tl == 0 %}
+                <td style="color:white;">  <a href="" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#assign" id="asign_btn"
+                  data-id="{{ e.id }}">Assign</a></td>
+                {% else %}
+                <td style="color:white;">{{e.tl}}</td>
+                {% endif %}
+                
+              
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Assign modal -->
+
+<div class="rowmt-5 hidden modal fade" id="assign">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-bs-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">Assign Team Lead</div>
+         
+          
+          <form action="{% url 'he_assign_tl1' %}" method="POST" enctype="multipart/form-data">
+            {%csrf_token%}
+            <div class="row pt-1 mt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2 text-light" style="color:white;">Choose Team Lead</div>
+              </div>
+              <div class="col">
+                <select class="form-control ml-3 mt-2 text-light" name="tl" id="tl">
+                  {% for tl in tls %}
+                  <option value="{{tl.id}}">{{tl.fullname}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <div class="row mt-4 mx-2" style="display: none;">
+              <input type="text" id="inputField1" name="eid" class="form-control">           
+            </div>
+
+            <div class="row mt-5">
+              <div class="col-sm-12" style="text-align: center;">
+                <input type="submit" class="btn btn-outline-primary">
+              </div>
+            </div>
+            
+          </form>
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<script>
+  $(document).ready(function () {
+    $("#search").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+
+ 
+</script>
+
+<script>
+  $(document).on('click', '#asign_btn', function() {
+   var eid = $(this).data('id');
+  $('#inputField1').val(eid);
+  // $('#inputField2').val(eid);
+   
+ });
+ </script>
+
+<script type="text/javascript">
+  function setselected(id) {
+    $('input[name="selected"]').val(id);
+  }
+</script>
+
+{% endblock %}

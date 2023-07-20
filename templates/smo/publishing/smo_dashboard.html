@@ -1,0 +1,166 @@
+{%extends 'smo/publishing/smo_base.html'%}
+<!-- DEVprojects -->
+{%load static%}
+{%block content%}
+<style>
+  
+</style>
+
+
+<div class="row pt-3">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">
+    PROJECTS
+  </div>
+</div>
+
+<div class="row mt-4">
+
+
+  <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
+    <div class="card">
+      <a href="{% url 'content'%}" class="text-decoration-none text-white ">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-8 col-sm-12 col-xl-8 my-auto">
+              <div class="d-flex d-sm-block d-md-flex align-items-center">
+                
+                    <h4 class="mb-0" style="color:white;">Content</h4>
+
+              </div>
+            </div>
+            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+              <i class="icon-lg mdi mdi-arrange-send-backward text-primary ms-auto"></i>
+            </div>
+          </div>
+
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
+    <div class="card">
+      <a href="{% url 'sm_calendar'%}" class="text-decoration-none text-white ">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-8 col-sm-12 col-xl-8 my-auto">
+              <div class="d-flex d-sm-block d-md-flex align-items-center">
+                
+                    <h4 class="mb-0" style="color:white;">Calender</h4>
+
+              </div>
+            </div>
+            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+              <i class="icon-lg mdi mdi-arrange-send-backward text-primary ms-auto"></i>
+            </div>
+          </div>
+
+        </div>
+      </a>
+    </div>
+  </div>
+  
+    <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
+      <div class="card">
+        <a href="{% url 'smo_cnt_chnl'%}" class="text-decoration-none text-white ">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                <div class="d-flex d-sm-block d-md-flex align-items-center">
+                  
+                      <h4 class="mb-0" style="color:white;">Connect channel</h4>
+  
+                </div>
+              </div>
+              <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                <i class="icon-lg mdi mdi-arrange-send-backward text-primary ms-auto"></i>
+              </div>
+            </div>
+  
+          </div>
+        </a>
+      </div>
+    </div>
+
+
+    <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
+      <div class="card">
+        <a href="{% url 'create_post'%}" class="text-decoration-none text-white ">
+          <div class="card-body">
+            <div class="row"> 
+              <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                <div class="d-flex d-sm-block d-md-flex align-items-center">
+                  
+                      <h4 class="mb-0" style="color:white;">Create your first idea</h4>
+                      
+  
+                </div>
+              </div>
+              <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                <i class="icon-lg mdi mdi-arrange-send-backward text-primary ms-auto"></i>
+              </div>
+            </div>
+  
+          </div>
+        </a>
+      </div>
+    </div>
+
+
+    
+
+
+    <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
+      <div class="card">
+        <a href="{% url 'published_post'%}" class="text-decoration-none text-white ">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                <div class="d-flex d-sm-block d-md-flex align-items-center">
+                  
+                      <h4 class="mb-0" style="color:white;">Publish your first post</h4>
+  
+                </div>
+              </div>
+              <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                <i class="icon-lg mdi mdi-arrange-send-backward text-primary ms-auto"></i>
+              </div>
+            </div>
+  
+          </div>
+        </a>
+      </div>
+    </div>
+</div>
+
+<!-- <div class="row mt-4">
+  {% for dp in devp %}
+  <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
+    <div class="card">
+      <a href="{% url 'DEVtable' dp.project_id %}" class="text-decoration-none text-white ">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-8 col-sm-12 col-xl-8 my-auto">
+              <div class="d-flex d-sm-block d-md-flex align-items-center">
+                
+                {% for p in pros %}
+          
+                  {% if dp.project_id == p.id %}           
+
+                    <h4 class="mb-0" style="color:white;">{{p.project}}</h4>
+
+                  {% endif %}
+                  
+                {% endfor %}
+              </div>
+            </div>
+            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+              <i class="icon-lg mdi mdi-arrange-send-backward text-primary ms-auto"></i>
+            </div>
+          </div>
+
+        </div>
+      </a>
+    </div>
+  </div> -->
+  {% endfor %}
+  {% endblock %}

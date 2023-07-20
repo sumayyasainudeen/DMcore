@@ -1,0 +1,75 @@
+{%extends 'smo/publishing/smo_base.html'%}
+<!-- DEVprojects -->
+{%load static%}
+{%block content%}
+<style>
+  
+</style>
+
+
+
+<div class="row pt-3">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">
+    PUBLISHED POST
+  </div>
+</div>
+
+
+        <div class="row">
+            <div class="col-lg-10 col-md-12 col-sm-12 mt-2" style="margin: 0 auto;">
+                <div class="card">
+                    
+                    <div class="card-body">
+                        <form method="POST" action="#" class="form">
+                            {% csrf_token %}
+                            <div class="row" >
+                                <div class="col-12 col-sm-12 col-xl-12 my-auto" style="margin: 0 auto;">
+                                    
+                                    <textarea class=" form-control text-light" style="border:0px solid #6C7293 ;height:400px; width: 100%; font-size: 16px;" placeholder="Type something else..." name="message" id="message"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3" >
+                                <div class="col-12 col-sm-12" style="margin: 0 auto;">
+                                    <div class="d-flex d-sm-block">
+                                    
+                                        
+                                        <div class="fallback">
+                                              <input name="file" type="file" multiple />
+                                        </div>
+                                    
+                        
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row mt-3" >
+                                <div class="col-sm-12" style="text-align: right;">
+                                    <div>
+                                        
+                                    
+                                        <button type="submit" class="btn btn-outline-primary mt-4 ml-4" >Create Post</button>
+                                    </div>
+                                </div>
+                                
+                        
+                                  
+                            </div>
+                        </form>
+
+                        <div id="preview"></div>
+                
+                    </div>
+                   
+                </div>
+            </div>
+        
+        </div>
+
+      
+
+
+
+
+<!--  -->
+{% endblock %}

@@ -1,0 +1,65 @@
+{%extends 'dm_manager/dm_ base.html'%}
+<!-- DEVprojects -->
+{%load static%}
+{%block content%}
+<style>
+  
+</style>
+
+
+<div class="row pt-3">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">
+    FOLLOW UP
+  </div>
+</div>
+
+<div class="row mt-5">
+
+
+
+    <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
+        
+      <div class="card">
+        
+        <a href="{% url 'dm_followup' %}" class="text-decoration-none text-white ">
+
+            
+
+          <div class="card-body">
+            <div class="header">
+              <div class="row mb-4">
+                  <div class="col-lg-4"></div>
+                  <div class="col-lg-4"></div>
+                  <div class="col-lg-4">
+                    <span class="badge badge-outline-success  ms-5" style="border-radius: 15px;"><i class="mdi mdi-bell" style="font-size: 18px"> {{count}} </i></span>
+                  </div>
+              </div>
+                
+            </div>  
+           
+            <div class="row my-3">
+              <div class="col-lg-8">
+                <div class="header">
+                  
+                  <h4 class="mb-0 mt-4 text-center " style="color:white;">Follow Up</h4>
+  
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <i class="icon-lg mdi mdi-arrange-send-backward text-primary ms-auto"></i>
+              </div>
+              
+            </div>
+  
+          </div>
+        </a>
+      </div>
+    </div>
+
+
+
+</div>
+
+
+
+  {% endblock %}

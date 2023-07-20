@@ -1,0 +1,659 @@
+{%extends 'admin/ad_base.html'%}
+{%load static%}
+{%block content%}
+<style>
+  .Search {
+    margin-top: 4%;
+    float: right;
+    margin-right: 5%;
+    padding-left: 3%;
+    padding-right: 3%;
+    line-height: 2;
+
+  }
+  fieldset{
+    margin: 30px;
+    border: #191c24;
+    border-radius: 20px;
+    
+  }
+</style>
+
+ 
+<div class="row " style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293 ;">Create Work</div>
+</div>
+<div class="row mt-3">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-body">
+        <form action="" method="post" id="forms" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <fieldset id="clint_info">
+            <legend>Client Information</legend>
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2" style="color:white ;">Client Name </div>
+              </div>
+              <div class="col-md-8 ">
+                <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;" name="client_name">
+                <div class="btn btn-light mt-2" id="add_info_row">+</div>
+                <!-- <button class="btn btn-light mt-2" id="add_info_row">+</button> -->
+              </div>
+            </div>
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class=" mr-2 ml-3 mt-2" style="color:white ;">Address</div>
+              </div>
+              <div class="col-md-8 ">
+                <textarea name="client_address" class="drop form-control ml-3 mt-2 text-light" 
+                  style="border:1px solid #6C7293 ;height:70px;" ></textarea>
+              </div>
+            </div>
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2" style="color:white ;">Mail Id </div>
+              </div>
+              <div class="col-md-8 ">
+                <input type="text" class="drop form-control ml-3 mt-2 text-light" name="client_mail" style="border:1px solid #6C7293 ;color:#6C7293;">
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset id="clint_bis">
+            <legend>Business Details</legend>
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2" style="color:white ;">Business Name</div>
+              </div>
+              <div class="col-md-8 ">
+                <input type="text" name="bs_name" class="drop form-control ml-3 mt-2 text-light" autocomplete="off" 
+                  style="border:1px solid #6C7293 ;">
+                  <div class="btn btn-light mt-2" id="add_bis_row">+</d>
+              </div>
+            </div>
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2" style="color:white ;">Website URL</div>
+              </div>
+              <div class="col-md-8 ">
+                <input type="text" class="drop form-control ml-3 mt-2 text-light" name="bs_website" style="border:1px solid #6C7293 ;color:#6C7293;">
+              </div>
+            </div>
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class=" mr-2 ml-3 mt-2 text-light" style="color:white ;">Location</div>
+              </div>
+              <div class="col-md-8 ">
+                <input type="text" class="drop form-control ml-3 mt-2 text-light" name="bs_location" style="border:1px solid #6C7293 ;color:#6C7293;">
+            
+              </div>
+            </div>
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <div class="mr-2 ml-3 mt-2" style="color:white ;">Attach Files</div>
+              </div>
+              <div class="col-md-8 ">
+                <input type="file" name="client_files" class="form-control mt-2 "
+                  style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;">
+              </div>
+            </div>
+          </fieldset>
+          
+          
+          
+          <fieldset id="ad_req_nts">
+            <legend>Requirments</legend>
+
+          <div class="row pt-1">
+            
+            <div class="col-md-4 ">
+              
+                <input type="checkbox" class="ml-3 mt-2 text-light" id="seo" value="SEO" name="seo" onclick=check_seo()>
+                <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">SEO</label>
+              
+            </div>
+            <div class="col-md-8 ">
+              <textarea name="seo_txt" id="seo_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="Description"></textarea>
+                <input type="file" name="seo_file" id="seo_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+
+                
+                
+                <input type="checkbox" class="ml-3 mt-2 text-light" id="onpage" value="onpage" name="onpage" onclick=check_onpage() style="display: none;">
+                <label for="" class="mr-2 ml-3 mt-2" style="color:rgb(10, 7, 7) ;display: none;" id="onpg_lb">Onpage</label>
+
+                <textarea name="on_txt" id="on_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="Description"></textarea>
+                <input type="file" name="on_file" id="on_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+
+              
+                <input type="number" value="0" name="on_target" id="on_target" class="form-control mt-2  text-light"
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+
+
+
+                <input type="checkbox" class="ml-3 mt-2 text-light" id="offpage" value="offpage" name="offpage" onclick=check_offpage() style="display: none;">
+                <label for="" class="mr-2 ml-3 mt-2" style="color:white;display: none;" id="offpg_lb">Offpage</label>
+
+                
+
+                <textarea name="off_txt" id="off_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="Description"></textarea>
+                <input type="file" name="off_file" id="off_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                
+                <input type="number" value="0" name="off_target" id="off_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+            </div>
+            
+            <div class="col-md-4 ">
+              <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_smo() name="smo" id="smo" value="SMO">
+              <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">SMO</label>
+            </div>
+            <div class="col-md-8 ">
+              <textarea name="smo_txt" id="smo_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;display: none;"  placeholder="Description"></textarea>
+                <input type="file" name="smo_file" id="smo_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                
+                <input type="number" value="0" name="smo_target" id="smo_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+               
+            </div>
+
+            <div class="col-md-4 ">
+              <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_smm() name="smm" id="smm" value="SMM">
+              <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">SMM</label>
+            </div>
+            <div class="col-md-8 ">
+              <textarea name="smm_txt" id="smm_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;display: none;"  placeholder="Description"></textarea>
+                <input type="file" name="smm_file" id="smm_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                
+                <input type="number" value="0" name="smm_target" id="smm_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+            </div>
+              
+            <div class="col-md-4 ">
+              <input type="checkbox" value="SEM/PPC" id="sem" onclick=check_sem() name="sem" class="ml-3 mt-2 text-light" >
+              <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">SEM/PPC</label>
+            </div>
+            <div class="col-md-8 ">
+              <textarea name="sem_txt" id="sem_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;display: none;" placeholder="Description"></textarea>
+                <input type="file" name="sem_file" id="sem_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                
+
+                <input type="number" value="0" name="sem_target" id="sem_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+            </div>
+
+            <div class="col-md-4 ">
+              <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_em() id="em" name="em" value="Email Marketing">
+              <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Email Marketing</label>
+            </div>
+            <div class="col-md-8 ">
+              <textarea name="em_txt" id="em_txt" name="em_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;display: none;" placeholder="Description"></textarea>
+                <input type="file" name="em_file" id="em_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                
+                <input type="number" value="0" name="em_target" id="em_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+            </div>
+
+            
+            <div class="col-md-4 ">
+              <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_cm() name="cm" id="cm" value="Content Marketing" >
+              <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Content Marketing</label>
+            </div>
+            <div class="col-md-8 ">
+              <textarea name="cm_txt" id="cm_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;display: none;" placeholder="Description"></textarea>
+                <input type="file" name="cm_file" id="cm_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+               
+                <input type="number" value="0" name="cm_target" id="cm_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                
+            </div>
+
+
+            <div class="col-md-4 ">
+              <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_am() name="am" id="am" value="Affiliate Marketing" >
+              <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Affiliate Marketing</label>
+            </div>
+            <div class="col-md-8 ">
+              <textarea name="am_txt" id="am_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;display: none;" placeholder="Description"></textarea>
+                <input type="file" name="am_file" id="am_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+               
+                <input type="number" value="0" name="am_target" id="am_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+            </div>
+              
+            <div class="col-md-4 ">
+              <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_mm() name="mm" id="mm" value="Mobile marketing">
+              <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Mobile marketing</label>
+            </div>
+            <div class="col-md-8 ">
+              <textarea name="mm_txt" id="mm_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="Description"></textarea>
+                <input type="file" name="mm_file" id="mm_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                
+                <input type="number" value="0" name="mm_target" id="mm_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                
+            </div>
+
+            <div class="col-md-4 ">
+              <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_vm() name="vm" id="vm" value="Video Marketing">
+              <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Video Marketing</label>
+            </div>
+            <div class="col-md-8 ">
+              <textarea name="vm_txt" id="vm_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;display: none;" placeholder="Description"></textarea>
+                <input type="file" name="vm_file" id="vm_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;" >
+                
+                <input type="number" value="0" name="vm_target" id="vm_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+            </div>
+
+            <div class="col-md-4 ">
+              <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_lc() name="lc" id="lc" value="Leads Collection">
+              <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Leads Collection</label>
+            </div>
+            <div class="col-md-8 ">
+              <textarea name="lc_txt" id="lc_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;display: none;" placeholder="Description"></textarea>
+                <input type="file" name="lc_file" id="lc_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;" >
+             
+
+                <input type="number" value="0" name="lc_target" id="lc_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+            </div>
+          </fieldset>
+            <div class="col-md-4 ">
+              <div class="btn btn-light mt-2" id="add_req_row">+</div>
+            </div>
+            
+            <div class=" row  mt-3 " style="text-align: center;">
+              <div class="">
+                <button type="submit" name="submit" onclick="openDialog()"  class="btn-primary">Create</button>
+              </div>
+            <div>
+            </div>
+           
+          </div>
+          
+
+          
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  function openDialog() {
+  var frm=document.getElementById("forms");
+    
+  let customMsg = "Do you want to submit?";
+  
+  if (confirm(customMsg)) {
+    frm.action=("{% url 'save_create_work'%}")
+  } else {
+    console.log("User Clicked CANCEL");
+  }
+}
+
+  function check_seo(){
+    var chk_seo=document.getElementById("seo").checked;
+    var textarea = document.getElementById('seo_txt');
+    var files = document.getElementById('seo_file'); 
+   
+    var onpage = document.getElementById('onpage');
+    var onpg_lb = document.getElementById('onpg_lb');
+    var offpage = document.getElementById('offpage');
+    var offpg_lb = document.getElementById('offpg_lb');
+    
+    if (chk_seo==true){
+      textarea.style=('display: block');
+      files.style=('display: block');
+      onpage.style=('display: block');
+      onpg_lb.style=('display: block');
+      offpage.style=('display: block');
+      offpg_lb.style=('display: block');
+    
+      
+      
+    }else{
+  
+      textarea.style=('display: none');
+      files.style=('display: none');
+      onpage.style=('display: none');
+      onpg_lb.style=('display: none');
+      offpage.style=('display: none');
+      offpg_lb.style=('display: none');
+    
+      
+      
+    }
+  }
+   
+  function check_onpage(){
+    var onpage=document.getElementById("onpage").checked;
+    var textarea = document.getElementById('on_txt');
+    var files = document.getElementById('on_file');
+    var onpg_tar = document.getElementById('on_target');
+    if (onpage==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+      onpg_tar.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+      onpg_tar.style=('display: none');
+    }
+  }
+
+  function check_offpage(){
+    var offpage=document.getElementById("offpage").checked;
+    var textarea = document.getElementById('off_txt');
+    var files = document.getElementById('off_file');
+    var offpg_tar = document.getElementById('off_target');
+    if (offpage==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+      offpg_tar.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+      offpg_tar.style=('display: none');
+    }
+  }
+
+  function check_smm(){
+    var chk_smm=document.getElementById("smm").checked;
+    var textarea = document.getElementById('smm_txt');
+    var files = document.getElementById('smm_file');
+    var smm_tar = document.getElementById('smm_target');
+    if (chk_smm==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+      smm_tar.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+      smm_tar.style=('display: none');
+    }
+  }
+
+  function check_smo(){
+    var chk_smo=document.getElementById("smo").checked;
+    var textarea = document.getElementById('smo_txt');
+    var files = document.getElementById('smo_file');
+    var smo_tar = document.getElementById('smo_target');
+    if (chk_smo==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+      smo_tar.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+      smo_tar.style=('display: none');
+    }
+  }
+
+  function check_sem(){
+    var chk_sem=document.getElementById("sem").checked;
+    var textarea = document.getElementById('sem_txt');
+    var files = document.getElementById('sem_file');
+    var sem_tar = document.getElementById('sem_target');
+
+    if (chk_sem==true){
+  
+      
+      textarea.style=('display: block');
+      files.style=('display: block');
+      sem_tar.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+      sem_tar.style=('display: none');
+    }
+  }
+
+      
+
+  function check_em(){
+    var chk_em=document.getElementById("em").checked;
+    var textarea = document.getElementById('em_txt');
+    var files = document.getElementById('em_file');
+    var em_tar = document.getElementById('em_target');
+    if (chk_em==true){
+  
+      
+      textarea.style=('display: block');
+      files.style=('display: block');
+      em_tar.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+      em_tar.style=('display: none');
+    }
+  }
+
+  function check_cm(){
+    var chk_cm=document.getElementById("cm").checked;
+    var textarea = document.getElementById('cm_txt');
+    var files = document.getElementById('cm_file');
+    var cm_tar = document.getElementById('cm_target');
+    if (chk_cm==true){
+  
+      
+      textarea.style=('display: block');
+      files.style=('display: block');
+      cm_tar.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+      cm_tar.style=('display: none');
+      
+    }
+  }
+
+  function check_am(){
+    var chk_am=document.getElementById("am").checked;
+    var textarea = document.getElementById('am_txt');
+    var files = document.getElementById('am_file');
+    var am_tar = document.getElementById('am_target');
+    if (chk_am==true){
+  
+      
+      textarea.style=('display: block');
+      files.style=('display: block');
+      am_tar.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+      am_tar.style=('display: none');
+    }
+  }
+
+  function check_mm(){
+    var chk_mm=document.getElementById("mm").checked;
+    var textarea = document.getElementById('mm_txt');
+    var files = document.getElementById('mm_file');
+    var mm_tar = document.getElementById('mm_target');
+    if (chk_mm==true){
+  
+      
+      textarea.style=('display: block');
+      files.style=('display: block');
+      mm_tar.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+      mm_tar.style=('display: none');
+    }
+  }
+
+  function check_vm(){
+    var chk_vm=document.getElementById("vm").checked;
+    var textarea = document.getElementById('vm_txt');
+    var files = document.getElementById('vm_file');
+    var vm_tar = document.getElementById('vm_target');
+    if (chk_vm==true){
+  
+      
+      textarea.style=('display: block');
+      files.style=('display: block');
+      vm_tar.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+      vm_tar.style=('display: none');
+    }
+  }
+
+  function check_lc(){
+    var chk_lc=document.getElementById("lc").checked;
+    var textarea = document.getElementById('lc_txt');
+    var files = document.getElementById('lc_file');
+    var lc_tar = document.getElementById('lc_target');
+    if (chk_lc==true){
+  
+      
+      textarea.style=('display: block');
+      files.style=('display: block');
+      lc_tar.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+      lc_tar.style=('display: none');
+    }
+  }
+
+
+</script>
+<script>
+  $(document).ready(function(){
+            
+            $('#add_info_row').click(function(){
+            
+                $('#clint_info').append(
+                    `
+                    <div class="row pt-1">
+                      <div class="col-md-4">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;" name='label[]' required>
+                      </div>
+                      <div class="col-md-6 ">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;" name='dis[]' required>
+                      </div>
+                    </div>
+                                                    
+                    `
+                );
+            });
+          });
+
+
+  $(document).ready(function(){
+    
+    $('#add_bis_row').click(function(){
+    
+        $('#clint_bis').append(
+            `
+            <div class="row pt-1">
+            <div class="col-md-4">
+              <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;" name='label2[]' required>
+            </div>
+            <div class="col-md-8 ">
+              <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;" name='dis2[]' required>
+            </div>
+                                            
+            `
+        );
+    });
+  });
+
+  $(document).ready(function(){
+    
+    $('#add_req_row').click(function(){
+    
+        $('#ad_req_nts').append(
+            `
+            <div class="row pt-1">
+              <div class="col-md-4">
+                <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;" name='label_req[]' required>
+              </div>
+              <div class="col-md-8 ">
+                
+                <textarea id="mm_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;color:#6C7293;" name='dis_req[]' required></textarea>
+                <input type="file"  id="vm_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 " name='file_add[]' required>
+
+                
+
+                
+
+                <input type="number" value="0" name='target[]' id="target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ;">
+              </div>
+            </div>
+                                            
+            `
+        );
+    });
+  });
+</script>
+{% if msg_error %}
+<script>
+
+  Swal.fire({
+      position: 'center',
+      icon: 'success',
+      text: '{{ msg_success }}',
+      showConfirmButton: false,
+      timer: 3000
+  }).then(function () {
+      javascript: history.go(-2);
+  })
+  
+</script>
+{% endif %}
+
+{% endblock %}

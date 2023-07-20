@@ -1,0 +1,130 @@
+{% extends 'team_lead/tl_base.html' %} 
+{%load static%}
+{%block content%}
+<div class="row pt-3" style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">NEW FEEDBACK <i>to {{exe.fullname}}</i></div>
+</div>
+<form action="{% url 'tl_feedback_submit' exe.id %}" method="post">{% csrf_token %}
+<div class="row mt-4">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="container">
+          <div class="text-left mt-2">DESCRIPTION</div>
+          <textarea  type="text" name="des" class="form-control mt-2 text-light"
+            style="border-radius:5px;height:90px;" id="reason" required></textarea>
+        </div>
+      </div>
+  
+     <div class="mt-3 small">
+        <input type="radio" id="option1" name="option" value="Suggestion">
+        <label for="option1">Suggestion</label><br>
+        <input type="radio" id="option2" name="option" value="Warning">
+        <label for="option2">Warning</label><br>
+      </div>
+      <div class="mt-3">
+        <button class="btn btn-primary">SUBMIT</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+<div class="row pt-3" style="background-color: black;">
+    <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">FEEDBACK HISTORY</div>
+  </div> 
+  <div class="row mt-4">
+    <div class="card">
+      <div class="card-body">
+        <input type="text" class="form-control text-light" id="search" placeholder="search...">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col-4" style="color:#6C7293;">DATE</th> 
+                <th scope="col-4" style="color:#6C7293;">FEEDBACK</th> 
+                <th scope="col-4" style="color:#6C7293;">REPLY</th> 
+                <th scope="col-4" style="color:#6C7293;">WARNING/SUGGESTION</th>
+
+            
+              </tr>
+            </thead>
+            <tbody id="myTable">
+              {% for i in wrng %}
+                <tr>
+                <td style="color:white;">{{i.date}}</td>
+                <td style="color:white;" data-toggle="modal" data-target="#feed{{i.id}}">view feedback</td>
+                <td style="color:white;" data-toggle="modal" data-target="#reply{{i.id}}">view reply</td>
+                <td style="color:white;">{{i.type}}</td>
+              </tr>
+              {%  endfor %}
+          </table>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+ {% for i in wrng %} 
+  <div class="rowmt-5 modal fade" id="feed{{i.id}}">
+    <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+      aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;">Feedback</div>
+              <div class="row mt-5">
+                <div class="col">
+                  <p class=" mt-2 text-light" style="color:white;">{{i.description}}</p>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+{% for i in wrng %} 
+  <div class="rowmt-5 modal fade" id="reply{{i.id}}">
+    <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+      aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;">Reply</div>
+            <div class="row mt-5">
+              <div class="col">
+                <p class=" mt-2 text-light" style="color:white;">{{i.reply}}</p>
+              </div>
+          </div>   
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+<script>
+  $(document).ready(function () {
+    $("#search").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  function setselected(id) {
+    $('input[name="selected"]').val(id);
+  }
+</script>
+
+{% endblock %}

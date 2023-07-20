@@ -1,0 +1,42 @@
+{%extends 'telecaller/tc_base.html'%}
+{%load static%}
+{% block content %}
+<style>
+  .red {
+    color: red;
+  }
+
+  .green {
+    color: green;
+  }
+</style>
+
+<div class="row mt-5">
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th scope="col" style="color:#6C7293;">Assigned Date</th>
+              <th scope="col" style="color:#6C7293;">Total Leads</th>
+              <th scope="col" style="color:#6C7293;">Follow Up</th>
+              <th scope="col" style="color:#6C7293;">Non Calling</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for lead in leads_by_date %}
+            <tr>
+                <td><a href="{% url 'tc_view_previous_leads' lead.assign_dt%}" class="text-decoration-none text-white">{{ lead.assign_dt }}</a></td>
+                <td>{{ lead.total_leads }}</td>
+                <td>{{ lead.followup }}</td>
+                <td > <span class="badge bg-transparent border border-danger text-danger">{{ lead.non_calling }}</span></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

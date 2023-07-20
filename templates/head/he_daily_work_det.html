@@ -1,0 +1,109 @@
+{%extends 'head/he_base.html'%}
+{%load static%}
+{%block content%}
+
+<style>
+  .col-md-4{
+    margin-bottom: 30px;
+  }
+  .col-md-8{
+    margin-bottom: 30px;
+  }
+</style>
+
+<form action="{% url 'he_daily_work_done' client.id %}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="table-responsive">
+    <table class="table  table-bordered table-dark">
+      <thead style="background-color: black;">
+       
+        <tr>
+          <th scope="col" style="color:#6C7293;background-color: black;">Date</th>
+          
+          
+          <th scope="col" style="color:#6C7293;background-color: black;">Work Done</th>
+  
+          <th scope="col" style="color:#6C7293;background-color: black;">Files</th>
+          
+          
+          <th scope="col" style="color:#6C7293;background-color: black;">Action</th>
+        </tr>
+      </thead>
+  
+      <tbody>
+  
+        
+        {% for i in work %}
+        <tr>
+         
+          <td style="color:white;">{{i.date}}</td>
+  
+          
+          
+          
+  
+          <td style="color:white;">{{i.workdone}}</td>
+  
+          <td style="color:white;">
+            
+            
+            
+            
+            {% for ss in i.json_testerscreenshot %}
+            <div class="badge badge-outline-primary">
+              <a style="text-decoration: none;" href="{{ ss }}" download>
+                Download
+              </a>
+            </div>
+            {% endfor %}
+          
+           
+            
+  
+            
+          </td>
+          
+          
+          <td>
+  
+            <div class="badge badge-outline-success">
+             Daily Work Submitted
+            </div>
+            
+          </td>
+          
+        </tr>
+        {% endfor %}
+        
+        
+        <tr>
+          <td style="color:white;">{{cr_date}}</td>
+  
+          
+          
+  
+          <td style="color:white;" >
+            <textarea name="workdone" class="form-control-sm bg-transparent text-light"
+              cols="25" rows="7" required>
+            </textarea> 
+  
+          </td>
+  
+          <td class="text-info"><input type="file" name="filed" multiple required></td>
+        
+          
+          <td class="text-info"><button type="submit" class="btn badge-outline-primary">submit</button></td>
+        </tr>
+      </tbody>
+  
+      
+    </table>
+  
+  </div>
+    
+        
+</form> 
+
+{%endblock content%}
+
+  

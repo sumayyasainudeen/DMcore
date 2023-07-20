@@ -1,0 +1,126 @@
+{%extends 'admin/ad_base.html'%}
+{%load static%}
+
+{%block content%}
+
+
+<div class="row pt-3" style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">AUDIT REPORT</div>
+</div>
+
+<div class="row mt-4 ">
+      <div class="card">
+          <div class="card-body">
+            <div class="row mt-3 mb-5">
+              <div class="col-sm-12" style="text-align: right;">
+                {% if pr_work.audit_rprt != ""%}
+                <a href="{{pr_work.audit_rprt.url}}"><button class="btn-primary Search"> Download Report</button></a>
+                {%else%}
+                
+            {%endif%}
+              </div>
+            </div>
+
+            <div class="row ">
+              <div class="col-sm-4">
+                <h4 class="mb-1">Executive Name</h4>
+              </div>
+              <div class="col-sm-2">
+                <h4 class="text-muted mb-0 mx-5">:</h4>
+              </div>
+              <div class="col-sm-6">
+                <h4 class="text-muted mb-0 mx-5">{{pr_work.user.fullname}}</h4>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-sm-4">
+                <h4 class="mb-1">Start Date</h4>
+              </div>
+              <div class="col-sm-2">
+                <h4 class="text-muted mb-0 mx-5">:</h4>
+              </div>
+              <div class="col-sm-6">
+                <h4 class="text-muted mb-0 mx-5">{{pr_work.start_date}}</h4>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-sm-4">
+                <h4 class="mb-1">End Date</h4>
+              </div>
+              <div class="col-sm-2">
+                <h4 class="text-muted mb-0 mx-5">:</h4>
+              </div>
+              <div class="col-sm-6">
+                <h4 class="text-muted mb-0 mx-5">{{pr_work.end_date}}</h4>
+              </div>
+            </div>
+            
+           
+          </div>  
+         
+      </div>
+      <div class="row pt-3 mt-5" style="background-color: black;">
+        <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">GRAPHICAL STATISTICAL VIEW</div>
+      </div>
+      <div class="row mt-5">
+        <div class="row mt-1">
+          <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card" >
+              <div class="card-body">
+                <h4 class="card-title" style="color:white;">Previous Week Graph</h4>
+                {% if prv_work.graph != ""%}
+                <div style="width:30rem">
+                  {% if prv_work.graph != pr_work.graph%}
+                  <img src="{{prv_work.graph.url}}" style="width:28rem" alt="">
+                  {%else%}
+                  {%endif%}
+                </div>
+                {%else%}
+              {%endif%}
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card"> 
+              <div class="card-body">
+                <h4 class="card-title" style="color:white;">Last Week Graph</h4>
+                {% if pr_work.graph != ""%}
+                <div style="width:30rem">
+                  <img src="{{pr_work.graph.url}}" style="width:28rem" alt="">
+                </div>
+                {%else%}
+              {%endif%}
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      
+      
+        
+      </div>
+  </div>
+  
+
+  
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <script src="../../assets/vendors/chart.js/Chart.min.js"></script>
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="../../assets/js/off-canvas.js"></script>
+  <script src="../../assets/js/hoverable-collapse.js"></script>
+  <script src="../../assets/js/misc.js"></script>
+  <script src="../../assets/js/settings.js"></script>
+  <script src="../../assets/js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page -->
+  <script src="../../assets/js/chart.js"></script>
+  <!-- End custom js for this page -->
+
+
+
+{% endblock %}

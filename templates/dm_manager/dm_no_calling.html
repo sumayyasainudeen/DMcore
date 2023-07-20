@@ -1,0 +1,208 @@
+{%extends 'dm_manager/dm_ base.html'%}
+{%load static%}
+{%block content%}
+
+<style>
+  .col-md-4{
+    margin-bottom: 30px;
+  }
+  .col-md-8{
+    margin-bottom: 30px;
+  }
+</style>
+
+
+<div class="row pt-3" style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">No Calling Leads</div>
+</div>
+<div class="row mt-4">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title">No Calling Leads</div>
+
+      <div style="text-align: right;">
+        <a href="" data-toggle="modal" data-target="#flt_day"style="text-decoration: none;"><button type="submit" name="submit" id="alert2" class="btn-primary Search" >Filter By Day</button></a>
+        <a href="" data-toggle="modal" data-target="#flt_month"style="text-decoration: none;"><button type="submit" name="submit" id="alert3" class="btn-primary Search" >Filter By Month</button></a>
+        <br><br>
+      </div>
+
+      <input type="text" class="form-control text-light" id="search" placeholder="search...">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" style="color:#6C7293;">Assigned date</th>
+              <th scope="col" style="color:#6C7293;">No Calling Count</th>
+            </tr>
+          </thead>
+          <tbody id="myTable">
+
+            {% for l in leads %}
+             
+           
+              <tr>
+                <td style="color:white;">
+                  <a href="{% url 'dm_no_calling_det' l.telecaller_id  l.assign_dt %}" style="text-decoration: none;">
+                    {{l.assign_dt}}
+                  </a> 
+                </td>
+                <td style="color:white;"><div class="badge badge-outline-danger">{{l.count}}</div></td>
+              
+              </tr>
+            
+            {%endfor%}
+        
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="rowmt-5 modal fade" id="flt_day">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">Filter By Day</div>
+
+          <form action="{% url 'dm_filter_day_no_calling' t_id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %} 
+
+            <div class="row mt-5">
+              
+              <div class="col-md-12 ">
+                  <div>
+                      <label for="">Select Day</label>
+                  </div>
+                  <div>
+                  <input type="date" name="day" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;height:70px;" required >
+                  </div>
+
+    
+              </div>
+              <!-- <div class="col-md-6 ">
+                  <div>
+                      <label for=""> End Date</label>
+                  </div>
+                  <div>
+                      <input type="date" name="end_dt" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;height:70px;" required >
+                  </div>
+
+    
+              </div> -->
+
+            </div>
+
+            <div class="row mt-4 ">
+              <div class="col-md-12" style="text-align: center;">
+                  
+                      <button type="submit" name="submit" id="alert2" class="btn-primary Search" >Filter By Day</button>
+                  
+              </div>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="rowmt-5 modal fade" id="flt_month">
+<div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-content modal-xl" style="background-color: #191c24;">
+    <div class="card ">
+      <div class="card-body">
+        <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+          style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="text-info" style="font-size: 20px;font-weight: 600;">Filter By Month</div>
+
+        <form action="{% url 'dm_filter_month_no_calling' t_id %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %} 
+
+          <div class="row mt-5">
+            
+            <div class="col-md-12 ">
+                <div>
+                    <label for="">Select Month</label>
+                </div>
+                <div>
+                <input type="month" name="month" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;height:70px;" required >
+                </div>
+
+  
+            </div>
+            <!-- <div class="col-md-6 ">
+                <div>
+                    <label for=""> End Month</label>
+                </div>
+                <div>
+                    <input type="month" name="end_month" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;height:70px;" required >
+                </div>
+
+  
+            </div> -->
+
+          </div>
+
+          <div class="row mt-4 ">
+            <div class="col-md-12" style="text-align: center;">
+                
+                    <button type="submit" name="submit" id="alert2" class="btn-primary Search" >Filter By Month</button>
+                
+            </div>
+          </div>
+          
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function () {
+    $("#search").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  function setselected(id) {
+    $('input[name="selected"]').val(id);
+  }
+</script>
+
+
+
+{% endblock %}
+

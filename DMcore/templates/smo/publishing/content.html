@@ -1,0 +1,274 @@
+{%extends 'smo/publishing/smo_base.html'%}
+<!-- DEVprojects -->
+{%load static%}
+{%block content%}
+<style>
+  
+</style>
+
+
+
+<div class="row pt-3">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">
+    CONTENT
+  </div>
+</div>
+
+
+<div class="row">
+    {% for i in post%}
+    <div class="col-md-3" style="text-align:center;" >
+        <a  data-toggle="modal" data-target="#view_draft{{i.id}}"><div class="card m-4" style="width: 18rem; height: auto;text-align: center;background-color: #191c24;color: white; ">
+            {% for ss in i.json_testerscreenshot %}
+           <img class="card-img-top" style=" width: 18rem;" src="{{ss}}">
+           
+           {%endfor%}
+           {% if i.status == "pending"%}
+            <div style="background-color: rgb(255, 0, 0);">
+              {{i.status}}
+            </div>
+            {% elif i.status == "draft"%}
+            <div style="background-color: rgb(255, 0, 0);">
+              {{i.status}}
+            </div>
+            {%else%}
+            <div style="background-color: green">
+              {{i.status}}
+            </div>
+            {%endif%}
+            <div class="card-body">
+            <h5 class="card-title">{{i.description}}</h5>
+
+
+            </div>
+        </div></a>
+    </div>
+    {%endfor%}
+   
+</div>
+
+{% for l in post %}
+<div class="rowmt-5 modal fade" tabindex="-1" role="dialog" id="view_draft{{l.id}}">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="modal-header">
+          <h5 class="modal-title">View Post</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{% url 'edit_post_drft' l.id%}" class="form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row" >
+                <div class="col-12 col-sm-12 col-xl-12 my-auto" style="margin: 0 auto;">
+                    
+                    <textarea class=" form-control text-light" style="border:0px solid #6C7293 ;height:400px; width: 100%; font-size: 16px;" placeholder="Type something else..." name="description">{{l.description}}</textarea>
+                </div>
+            </div>
+
+            
+
+            <div class="row mt-3">
+              <div class="col-sm-12">
+
+                {% for ss in l.json_testerscreenshot %}
+                <a href="{{ss}}"><img class="card-img-top" style=" width: 18rem;" src="{{ss}}"></a>
+                
+                {%endfor%}
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="col-sm-12" style="text-align: center;">
+                <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads">Posting Social Media</div>
+              </div>
+            </div>
+            
+            
+            <div class="row mt-3">
+              <div class="col-sm-12" style="text-align: center;">
+                    {% if l.fb != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Facebook','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Facebook</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if l.tw != None%}
+                    <a href="" data-toggle="modal" data-target="#descr"onclick="view_sub('Twitter','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Twitter</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if l.pin != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Pinterest','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Pinterest</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if l.link != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Linkedin','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Linkedin</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if l.insta != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Instagram','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Instagram</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if l.tumb != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumblr','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Tumblr</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if l.diry != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Directories','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Directories</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if l.yt != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('You Tube','{{l.id}}')"><div class="badge badge-outline-primary mt-1">You Tube</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if l.qra != v%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Quora','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Quora</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% for n in addi_post %}
+                    
+                      {% if l.id == n.post_id%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.label}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.label}}</div></a>
+                      {%else%}
+                      {%endif%}
+                    {%endfor%}
+              </div>
+            </div>
+
+            <hr>
+
+            
+            
+            {% if l.status == "complete"%}
+            <div class="row">
+              <div class="col-sm-12" style="text-align: center;">
+                <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads">Status Updation</div>
+              </div>
+            </div>
+            <div class="row" style="text-align: center;">
+              <div class="col-sm-12">
+                
+                <div class="row mt-3">
+                  <div class="col-sm-12">
+                    {% if l.st_file != None%}
+                    <a href="{{l.st_file.url}}"><img class="card-img-top" style=" width: 18rem;" src="{{l.st_file.url}}"></a>
+                    {%else%}
+                    {%endif%}
+                    
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% elif l.status == "submitted"%}
+            <div class="row">
+              <div class="col-sm-12" style="text-align: center;">
+                <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads">Status Updation</div>
+              </div>
+            </div>
+            <div class="row" style="text-align: center;">
+              <div class="col-sm-12">
+                
+                <div class="row mt-3">
+                  <div class="col-sm-12">
+                    {% if l.st_file != None%}
+                    <a href="{{l.st_file.url}}"><img class="card-img-top" style=" width: 18rem;" src="{{l.st_file.url}}"></a>
+                    {%else%}
+                    {%endif%}
+                    
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+            {%else%}
+            {%endif%}
+             
+            <div class="row mt-3" >
+                <div class="col-sm-12" style="text-align: right;">
+                    <div>
+                        
+
+                        <button type="submit" class="btn btn-outline-primary mt-4 ml-4 mb-5" >Save As Draft</button>
+                    </form>
+                    
+                    <a href="{% url 'published_post' %}"><div class="btn btn-outline-primary mt-4 mb-5" >Create Post</div></a>
+                    </div>
+                </div>
+                
+        
+                  
+            </div>
+      </div>
+    </div>
+  </div>
+{%endfor%}
+
+<div class="rowmt-5 modal fade" id="descr">
+  <div class="modal-dialog modal-m modal-dialog-centered" role="document">
+    <div class="modal-content modal-m" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <div class="container">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none; float: right; font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;" id="headssss"> </div>
+
+            <div class="row mt-5">
+              <div class="col">
+                <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="sub_des"></p>
+              </div>
+              <div id="files_sub">
+                <a href="" id="files"><div  class="btn-primary Search" style="width:220px; text-align:center" >Download Attach File</div></a>
+              </div>
+              
+            </div>
+           
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<script>
+  function view_sub(el, id){
+      var elem=el
+      var ids=id
+      
+      $.ajax({
+          type: "GET",
+          url: "{% url 'ad_get_smo_pst' %}",
+          data: {
+              ele : elem,
+              idss:ids,
+              
+          },
+          success:function(response){
+                  console.log(response)
+           
+                  head = response.hd
+                  des = response.des 
+                  fil = response.fl
+           
+                  document.getElementById('sub_des').innerHTML = "Posting Date : "+des;
+                  document.getElementById('headssss').innerHTML = head;
+                  flr=document.getElementById('files')
+             
+                  flr.href = (`/media/${fil}`)
+                  
+
+          }});
+
+      
+  }
+</script>
+
+<!--  -->
+{% endblock %}

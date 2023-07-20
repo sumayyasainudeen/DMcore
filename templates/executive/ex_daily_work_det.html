@@ -1,0 +1,1334 @@
+{%extends 'executive/ex_base.html'%}
+{%load static%}
+{%block content%}
+
+<style>
+  .col-md-4{
+    margin-bottom: 30px;
+  }
+  .col-md-8{
+    margin-bottom: 30px;
+  }
+</style>
+
+
+<div class="row pt-3" style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">PROJECTS</div>
+</div>
+<div class="row mt-4">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title">Projects</div>
+      <input type="text" class="form-control text-light" id="search" placeholder="search...">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" style="color:#6C7293;">Task name</th>
+              <th scope="col" style="color:#6C7293;">AssignedTo</th>
+              <th scope="col" style="color:#6C7293;">Task Status</th>
+              <th scope="col" style="color:#6C7293;">Project Details</th>
+              <th scope="col" style="color:#6C7293;">Target</th>
+              <th scope="col" style="color:#6C7293;">Delay</th>
+              <th scope="col" style="color:#6C7293;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="myTable">
+
+              {% for l in works%}
+              {% for wras in work_as%}
+              {% if l.id == wras.work_id%}
+           
+              <tr>
+              <td style="color:white;">{{l.task}}</td>
+             
+              <td style="color:white;">{{usr.fullname}}</td>
+              <td class="text-primary"><a href="" data-toggle="modal" data-target="#taskstatus{{l.id}}"
+                  style="text-decoration: none;">
+                  <div class="badge badge-outline-info">Task Status</div>
+                </a></td>
+
+             
+              <td>
+                <a  data-toggle="modal" data-target="#exampleModalCenter3{{l.id}}"
+                  >
+                  <div class="badge badge-outline-info">Work Details</div>
+                  <!-- <div class="progress-bar" style="height:20px;">dp.progress</div> -->
+
+                </a>
+              </td>
+              <td>{{l.target}}</td>
+              
+              <td>
+                {% if l.status == "yes" %}
+                <div class="badge badge-outline-danger">{{l.delay}}</div>
+                {%else%}
+                {%endif%}
+              </td>
+                
+              
+              {% if l.task == "SMO" %}
+              <td>
+                
+                  <a href="{% url 'smo_login' l.id %}"><div class="badge badge-outline-info">Start </div></a>
+                  
+              </td>
+              {% else %}
+              
+              <td></td>
+              {% endif %}
+ 
+
+            </tr>
+            {%else%}
+            {%endif%}
+            {% endfor %}
+            {%endfor%}
+        
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- pop up window for Work acceptance letter -->
+
+
+
+
+
+<!-- pop up window for Project details -->
+
+{% for dp in works %}
+
+  <div class="rowmt-5 modal fade" id="exampleModalCenter3{{dp.id}}">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+              <div class="container">
+                <div class="text-info" style="font-size: 20px;font-weight: 600;">Work Details</div>
+
+              <div class="row mt-5">
+                <div class="col-md-1"></div>
+                <div class="col-md-2 mt-2" style="color:white;">Start date</div>
+                <div class="col-md-2 mt-2">
+                  <div class="ml-3" style="color:white;">{{dp.start_date}}</div>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2 mt-2" style="color:white;"> End date</div>
+                <div class="col-md-2 mt-2" style="color:white;"> {{dp.end_date}}</div>
+                <div class="col-md-1"></div>
+              </div>
+            </div>
+
+            <div class="row mt-5 ml-2">
+              <div class="col-md-1"></div>
+              <div class="col-md-2 mt-2" style="color:white;">Assigned to</div>
+              <div class="col-md-2 mt-2">
+                <div style="color:white;">{{usr.fullname}}</div>
+              </div>
+              <div class="col-md-2"></div>
+              
+              <div class="col-md-1"></div>
+            </div>
+
+            
+
+          </div>
+
+
+        </div>
+
+        <div class="container mt-3 " style="border-top:1px solid grey;">
+          <div class="text-info pt-4" style="font-size: 20px;font-weight: 600;">Task Details</div>
+          <div class="pt-3 " style="margin-left:20px;color:white;">{{dp.task}}</div>
+          {% if dp.file_attached == ""%}
+          <div class="pt-3 " style="margin-left:20px;color:white;"><button type="submit" name="submit" id="alert2" class="btn-primary Search">No File Attach</button></div>
+          {%else%} 
+            <div class="pt-3 " style="margin-left:20px;color:white;"><a href="{{dp.file_attached.url}}"><button type="submit" name="submit" id="alert2" class="btn-primary Search">Download Attach File</button></a></div>
+          {%endif%}
+
+          {% if dp.file_2 == ""%}
+          <div class="pt-3 " style="margin-left:20px;color:white;"><button type="submit" name="submit" id="alert2" class="btn-primary Search">No File Attach</button></div>
+          {%else%}
+          <div class="pt-3 " style="margin-left:20px;color:white;"><a href="{{dp.file_2.url}}"><button type="submit" name="submit" id="alert2" class="btn-primary Search">Download Attach File</button></a></div>
+
+          {%endif%}
+          
+        </div>
+
+        <div class="container mt-3" style="border-top:1px solid grey;border-bottom:1px solid grey;">
+          <div class="text-info pt-4 pb-2" style="font-size: 20px;font-weight: 600;">Task Description</div>
+          <div class="row pt-1">
+            
+            <div class="col-md-12">
+              <p>{{dp.description}}</p>
+            </div>
+            
+          </div>
+          <div class="text-info pt-4 pb-2" style="font-size: 20px;font-weight: 600;">Task Target</div>
+          <div class="row pt-1">
+            
+            <div class="col-md-12">
+              <p>{{dp.target}}</p>
+            </div>
+            
+          </div>
+          
+          {% if dp.sub_task != ""%}
+        
+          <div class="text-info pt-4" style="font-size: 20px;font-weight: 600;">Sub Task Details</div>
+            
+            <div class="pt-3 " style="color:white;">{{dp.sub_task}}</div>
+            <div>
+              <p></p>
+            </div>
+            {% if dp.sub_file == ""%}
+            <div class="pt-3 " style="margin-left:20px;color:white;"><button type="submit" name="submit" id="alert2" class="btn-primary Search">No File Attach</button></div>
+            {%else%} 
+              <div class="pt-3 " style="margin-left:20px;color:white;"><a href="{{dp.sub_file.url}}"><button type="submit" name="submit" id="alert2" class="btn-primary Search">Download Attach File</button></a></div>
+            {%endif%}
+              
+            </div>
+              <div class="text-info pt-4 pb-2" style="font-size: 20px;font-weight: 600;"> Sub Task Description</div>
+              <div class="row pt-1">
+                
+                <div class="col-md-12">
+                  <p>{{dp.sub_des}}</p>
+                </div>
+                
+              </div>
+            
+            </div>
+            
+          
+          </div>
+          {%else%}
+          {%endif%}
+        </div>
+        
+        <br><br>
+      </div>
+    </div>
+  </div>
+{%endfor%}
+
+
+{% for dp in works %}
+<form action="{% url 'daily_work_done'  dp.id%}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="modal fade" id="taskstatus{{dp.id}}">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="modal-header">
+          <h5 class="modal-title text-info">Daily Work Report</h5>
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="font-size: 20px;;background-color: #191c24;border:none;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="table-responsive mt-3 mb-3 container">
+
+          <table class="table   table-bordered ">
+            <thead style="background-color: black;">
+              <tr>
+                <th scope="col" style="color:#6C7293;">Date</th>
+                <th scope="col" style="color:#6C7293;">Task</th>
+                
+                <th scope="col" style="color:#6C7293;">Work Done</th>
+
+                <th scope="col" style="color:#6C7293;">Files</th>
+                
+                
+                <th scope="col" style="color:#6C7293;">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              {% for dl in daily %}
+              {% if dl.work_id == dp.id%}
+              
+                <tr>
+                  <td style="color:white;">{{dl.date}}</td>
+
+                  <td style="color:white;">{{dl.task}}
+                    {% if dp.sub_task != "" %}
+                  ({{dp.sub_task}})
+                  {%else%}
+                  {%endif%}
+                  </td>
+                  
+                  
+
+                  <td style="color:white;">
+                    <a href="" data-toggle="modal" data-target="#dis{{dl.id}}">
+                      <div class="badge badge-outline-info" >View Description</div>                       
+                    </a>
+                    
+                    {% if dl.target_count|add:'0' == dp.target %}
+
+                    <div class="badge badge-outline-warning">{{dl.target_count}}</div>
+                    {% elif dl.target_count|add:'0' >  dp.target %}
+                    <div class="badge badge-outline-success">{{dl.target_count}}</div>
+                    
+                    {% else %}
+                    <div class="badge badge-outline-danger">{{dl.target_count}}</div>
+
+                    {%endif%}
+                   
+                  </td>
+
+                  <td style="color:white;">
+                    {% if dl.daily_file == ""%}
+                    <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="" download>No File Attached</a></div>
+                    {%else%}
+                    {% for ss in dl.json_testerscreenshot %}
+                    <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="{{ ss }}" download>
+                        Download</a></div>
+                    {% endfor %}
+                  
+                    {%endif%}
+
+                    
+                  </td>
+                  
+                  
+                  <td>
+
+                    {% if dl.status == "no"%}
+                    <div class="badge badge-outline-danger">
+                      Target Not Achieved
+                    </div>
+                    {% elif dl.status == ""%}
+                    <div class="badge badge-outline-danger">
+                      Target Not Achieved
+                    </div>
+                    {% elif dl.status == "about"%}  
+                    <div class="badge badge-outline-warning">
+                      About to Achieved
+                    </div>
+                    {%else%}
+                    <div class="badge badge-outline-success">
+                      Target Achieved
+                    </div>
+                    
+              
+                    {%endif%}
+                    <!-- <div class="badge badge-outline-primary"><a href="" style="text-decoration: none;"
+                        target="_blank">View</a></div> -->
+                  </td>
+                </tr>
+              {%else%}
+              {%endif%}
+              {%endfor%}
+
+             
+ 
+              <tr>
+                <td style="color:white;">{{cr_date}}</td>
+
+                <td style="color:white;">{{dp.task}}
+                  {% if dp.sub_task != "" %}
+                  ({{dp.sub_task}})
+                  {%else%}
+                  {%endif%}
+                </td>
+               
+
+                <td style="color:white;" ><textarea name="workdone" class="form-control-sm bg-transparent text-light"
+                    cols="25" rows="7"></textarea> 
+                  {% if dp.sub_task == "Off page" %}
+                    <div class="col-md-4 ">
+                      <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_pr() name="pr" id="pr" value="PR Submission">
+                      <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">PR Submission</label>
+                    </div>
+                    <div class="col-md-8 ">
+                      <textarea name="pr_txt" id="pr_txt" class="drop form-control ml-3 mt-2 text-light" 
+                        style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                        <input type="file" name="pr_file" id="pr_file" class="form-control mt-2 "
+                        style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                    </div>
+                    <div class="col-md-4 ">
+                      <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_art() name="art" id="art" value="Article Submission">
+                      <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Article Submission</label>
+                    </div>
+                    <div class="col-md-8 ">
+                      <textarea name="art_txt" id="art_txt" class="drop form-control ml-3 mt-2 text-light" 
+                        style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                        <input type="file" name="art_file" id="art_file" class="form-control mt-2 "
+                        style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                    </div>
+
+                    <div class="col-md-4 ">
+                      <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_blg() name="blg" id="blg" value="Blog Posting">
+                      <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Blog Posting</label>
+                    </div>
+                    <div class="col-md-8 ">
+                      <textarea name="blg_txt" id="blg_txt" class="drop form-control ml-3 mt-2 text-light" 
+                        style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                        <input type="file" name="blg_file" id="blg_file" class="form-control mt-2 "
+                        style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                    </div>
+
+                    <div class="col-md-4 ">
+                      <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_cls() name="cls" id="cls" value="Classified Submission">
+                      <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Classified Submission</label>
+                    </div>
+                    <div class="col-md-8 ">
+                      <textarea name="cls_txt" id="cls_txt" class="drop form-control ml-3 mt-2 text-light" 
+                        style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                        <input type="file" name="cls_file" id="cls_file" class="form-control mt-2 "
+                        style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                    </div>
+                    <div class="col-md-4 ">
+                      <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_gst() name="gst" id="gst" value="Guest Blogging">
+                      <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Guest Blogging</label>
+                    </div>
+                    <div class="col-md-8 ">
+                      <textarea name="gst_txt" id="gst_txt" class="drop form-control ml-3 mt-2 text-light" 
+                        style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                        <input type="file" name="gst_file" id="gst_file" class="form-control mt-2 "
+                        style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                    </div>
+
+                    <div class="col-md-4 ">
+                      <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_bk() name="bk" id="bk" value="Bokkmarking ">
+                      <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Bokkmarking</label>
+                    </div>
+                    <div class="col-md-8 ">
+                      <textarea name="bk_txt" id="bk_txt" class="drop form-control ml-3 mt-2 text-light" 
+                        style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                        <input type="file" name="bk_file" id="bk_file" class="form-control mt-2 "
+                        style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                    </div>
+                    
+                    <div id="off_sub">
+
+                    </div>
+                    <div class="btn btn-light mt-2" id="off_sub_btn">+</div>
+                  
+                  {%else%}
+                  {%endif%}
+                  
+                {% if dp.task == "SMO" %}
+                  
+                  <div class="col-md-4 ">
+                    <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_fb() name="fb" id="fb" value="Facebook">
+                    <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Facebook</label>
+                  </div>
+                  <div class="col-md-8 ">
+                    <textarea name="fb_txt" id="fb_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                      <input type="file" name="fb_file" id="fb_file" class="form-control mt-2 "
+                      style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                  </div>
+
+                  <div class="col-md-4 ">
+                    <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_tw() name="tw" id="tw" value="Twitter">
+                    <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Twitter</label>
+                  </div>
+                  <div class="col-md-8 ">
+                    <textarea name="tw_txt" id="tw_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                      <input type="file" name="tw_file" id="tw_file" class="form-control mt-2 "
+                      style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                  </div>
+
+                  <div class="col-md-4 ">
+                    <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_pin() name="pin" id="pin" value="Pinterest">
+                    <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Pinterest</label>
+                  </div>
+                  <div class="col-md-8 ">
+                    <textarea name="pin_txt" id="pin_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                      <input type="file" name="pin_file" id="pin_file" class="form-control mt-2 "
+                      style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                  </div>
+
+                  <div class="col-md-4 ">
+                    <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_link() name="link" id="link" value="Linkedin">
+                    <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Linkedin</label>
+                  </div>
+                  <div class="col-md-8 ">
+                    <textarea name="link_txt" id="link_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                      <input type="file" name="link_file" id="link_file" class="form-control mt-2 "
+                      style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                  </div>
+
+                  <div class="col-md-4 ">
+                    <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_insta() name="insta" id="insta" value="Instagram">
+                    <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Instagram</label>
+                  </div>
+                  <div class="col-md-8 ">
+                    <textarea name="insta_txt" id="insta_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                      <input type="file" name="insta_file" id="insta_file" class="form-control mt-2 "
+                      style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                  </div>
+
+                  <div class="col-md-4 ">
+                    <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_tumb() name="tumb" id="tumb" value="Tumblr">
+                    <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Tumblr</label>
+                  </div>
+                  <div class="col-md-8 ">
+                    <textarea name="tumb_txt" id="tumb_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                      <input type="file" name="tumb_file" id="tumb_file" class="form-control mt-2 "
+                      style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                  </div>
+
+                  <div class="col-md-4 ">
+                    <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_diry() name="diry" id="diry" value="Directories">
+                    <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Directories</label>
+                  </div>
+                  <div class="col-md-8 ">
+                    <textarea name="diry_txt" id="diry_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                      <input type="file" name="diry_file" id="diry_file" class="form-control mt-2 "
+                      style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                  </div>
+
+                  <div class="col-md-4 ">
+                    <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_yt() name="yt" id="yt" value="YouTube">
+                    <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">YouTube</label>
+                  </div>
+                  <div class="col-md-8 ">
+                    <textarea name="yt_txt" id="yt_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                      <input type="file" name="yt_file" id="yt_file" class="form-control mt-2 "
+                      style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                  </div>
+
+                  <div class="col-md-4 ">
+                    <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_qra() name="qra" id="qra" value="Quora">
+                    <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Quora</label>
+                  </div>
+                  <div class="col-md-8 ">
+                    <textarea name="qra_txt" id="qra_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                      <input type="file" name="qra_file" id="qra_file" class="form-control mt-2 "
+                      style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                  </div>
+                  
+                  <div id="sub_info">
+
+                  </div>
+                  <div class="btn btn-light mt-2" id="add_sub">+</div>
+                {%else%}
+                {%endif%}
+                
+                {% if dp.task == "Leads Collection" %}
+
+                  <div id="lc_col">
+
+                  </div>
+                  <div class="btn btn-light mt-2" id="lc_col_btn">+</div>
+
+                  <div class="row">
+                    <div class="col-sm-6" style="text-align: center;">
+                      <a href="{% static 'assets\excel\excel_sheet_demo.xlsx' %}" download><div class="btn btn-success mt-2">Demo Excel Download</div></a>
+                    </div>
+                    <div class="col-sm-6" style="text-align: center;">
+                      <div class="btn btn-danger mt-2" onclick="view_inptfile()">Upload Excel</div>
+                    </div>
+                  </div>
+                  <div class="row mt-3" style="display: none;" id="up_ld_excel">
+                    <div class="col-sm-12" style="text-align: center;">
+                      <input type="file" name="up_ld_excel" >
+                    </div>
+                  </div>
+                  
+                  {%else%}
+                  {%endif%}
+
+                </td>
+
+                <td class="text-info"><input type="file" name="filed" multiple></td>
+              
+                
+                <td class="text-info"><button type="submit" class="btn badge-outline-primary">submit</button></td>
+              </tr>
+            </tbody>
+
+            
+          </table>
+
+        </div>
+
+      </div>
+    </div>
+  </div> 
+  
+  </div>
+</form> 
+{%endfor%}
+
+{% for work in daily %}
+  <div class="rowmt-5 modal fade" id="dis{{work.id}}">
+    <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+      aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;">Description</div>
+  
+            <div class="row mt-5">
+              <div class="col">
+                <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="des_rp">{{work.workdone}}</p>
+              </div>
+
+              <div>
+                {% if work.task == "Leads Collection" %}
+                {% for n in dl_leeds %}
+                    
+                    {% if work.id == n.daily_id%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                    {%else%}
+                    {%endif%}
+                {%endfor%}
+                {%else%}
+                {%endif%}
+
+                {% if work.task == "SMO" %}
+                    {% if work.fb != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Facebook','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Facebook</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.tw != None%}
+                    <a href="" data-toggle="modal" data-target="#descr"onclick="view_sub('Twitter','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Twitter</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.pin != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Pinterest','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Pinterest</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.link != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Linkedin','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Linkedin</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.insta != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Instagram','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Instagram</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.tumb != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumblr','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Tumblr</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.diry != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Directories','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Directories</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.yt != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('You Tube','{{work.id}}')"><div class="badge badge-outline-primary mt-1">You Tube</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.qra != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Quora','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Quora</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% for n in dl_sub %}
+                    
+                      {% if work.id == n.daily_id%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      {%else%}
+                      {%endif%}
+                    {%endfor%}
+                
+                {%else%}
+                {%endif%}
+
+                
+                    {% if work.pr != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('PR Submission','{{work.id}}')"><div class="badge badge-outline-primary mt-1">PR Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.art != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Article Submission','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Article Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.blg != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Blog Posting','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Blog Posting</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.clss != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Classified Submission','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Classified Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.gst != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Guest Blogging','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Guest Blogging</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.gst != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Bokkmarking','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Bokkmarking</div></a>
+                    {%else%}
+                    {%endif%}
+                    
+
+                    {% for n in dl_off %}
+                    
+                      {% if work.id == n.daily_id%}
+                      <a href="" data-dismiss="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')" data-toggle="modal" ><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      
+                      {%else%}
+                      {%endif%}
+                      
+                    {%endfor%}
+                
+                  
+              </div>
+              
+            </div>
+
+            {% if work.task == "Leads Collection" %}
+            <div class="row mt-2">
+              <div class="col-sm-12" style="text-align: right;">
+                <a href="{% url 'ad_export_excel' work.id %}">
+                <div class="badge badge-outline-success">
+                  Download Excel</div></a>
+              </div>
+            </div>
+            {%else%}
+            {%endif%}
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{%endfor%}
+
+
+
+<div class="rowmt-5 modal fade" id="descr">
+  <div class="modal-dialog modal-m modal-dialog-centered" role="document">
+    <div class="modal-content modal-m" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <div class="container">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none; float: right; font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads"> </div>
+
+            <div class="row mt-5">
+              <div class="col">
+                <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="sub_des"></p>
+              </div>
+              <div id="files_sub">
+                <a href="" id="files"><div  class="btn-primary Search" style="width:220px; text-align:center" >Download Attach File</div></a>
+              </div>
+              
+            </div>
+           
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<script>
+  function view_sub(el, id){
+      var elem=el
+      var ids=id
+      
+      $.ajax({
+          type: "GET",
+          url: "{% url 'get_sub' %}",
+          data: {
+              ele : elem,
+              idss:ids,
+              
+          },
+          success:function(response){
+                  console.log(response)
+           
+                  head = response.hd
+                  des = response.des
+                  fil = response.fl
+           
+                  document.getElementById('sub_des').innerHTML = des;
+                  document.getElementById('heads').innerHTML = head;
+                  flr=document.getElementById('files')
+             
+                  flr.href = (`/media/${fil}`)
+                  
+
+          }});
+
+      
+  }
+</script>
+<script>
+  $(document).ready(function(){
+            
+            $('#off_sub_btn').click(function(){
+            
+                $('#off_sub').append(
+                    `
+                    <div class="col-md-12 ">
+                    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='off_sub_lb[]' id="sub_lb" >
+                   
+                  </div>
+                  <div class="col-md-12">
+                    <textarea name='off_sub_txt[]' id="sub_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; " ></textarea>
+                      <input type="file" name='off_sub_file[]' id="sub_file" class="form-control mt-2 "
+                      style="text-decoration:none;background-color: #191c24;color:#6C7293 ;">
+                  </div>
+                                                    
+                    `
+                );
+            });
+          });
+</script> 
+
+<!-- <div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_name[]' id="name" placeholder="Name">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_email_id[]' id="email_id" placeholder="Email id">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_ph_no[]' id="ph_no" placeholder="Phone Number">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_location[]' id="location" placeholder="Location">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_qualification[]' id="qualification" placeholder="Qualification">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="date" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_year_of_passout[]' id="year_of_passout" placeholder="Year of passout">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_collegename[]' id="collegename" placeholder="Collegename">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship[]' id="internship" placeholder="Internship">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_institute[]' id="internship_institute" placeholder="Internship Institute">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_topic[]' id="internship_topic" placeholder="Internship Topic">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="date" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_start[]' id="internship_start" placeholder="Internship start Date">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="date" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_end[]' id="internship_end" placeholder="Internship End Date">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+
+    <input type="radio" class=" ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_fresher_experience[]' id="fresher_experience" placeholder="Fresher">
+    <input type="radio" class="ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_fresher_experience[]' id="fresher_experience" placeholder="Experience">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_previous_experience[]' id="previous_experience" placeholder="Previous Experience">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_company_name[]' id="company_name" placeholder="Company Name">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_register[]' id="register" placeholder="register">
+  </div>
+</div> -->
+
+
+<script>
+  $(document).ready(function(){
+            
+            $('#lc_col_btn').click(function(){
+            
+                $('#lc_col').append(
+                    `
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_name[]' id="name" placeholder="Name" >
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_email_id[]' id="email_id" placeholder="Email id" >
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_ph_no[]' id="ph_no" placeholder="Phone Number" >
+                      </div>
+                    </div>
+
+                    
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_qualification[]' id="qualification" placeholder="Qualification" >
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_year_of_passout[]' id="year_of_passout" placeholder="Year of Passout" >
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_collegename[]' id="collegename" placeholder="College Name" >
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_location[]' id="location" placeholder="Location" >
+                      </div>
+                    </div>
+
+                    <div class="row mt-2">
+                      <div class="col-sm-12">
+                        
+                        <label>Internship If Any : </label>
+                        <input type="radio" class=" ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship[]' id="internship" value="yes" ><label>Yes</label>
+                        <input type="radio" class="ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship[]' id="internshipno" value="no"  checked><label>No</label>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_institute[]' id="internship_institute" placeholder="Internship Institute"  >
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_topic[]' id="internship_topic" placeholder="Internship Topic"   >
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12 mt-2">
+                        <label>Internship Start Date:</label>
+                        <input type="date" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_start[]' id="internship_start" placeholder="Internship start Date" >
+                      </div>
+                    </div>
+
+                    <div class="row mt-2">
+                      <div class="col-sm-12">
+                        <label>Internship End Date:</label>
+                        <input type="date" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_end[]' id="internship_end" placeholder="Internship End Date" >
+                      </div>
+                    </div>
+                    <div class="row mt-2">
+                      <div class="col-sm-12">
+                        <label>Duration:</label>
+                        <input type="number" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_duration[]' id="duration" placeholder="Duration" value="0" >
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+
+                        <input type="radio" class=" ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_fresher_experience[]' id="fresher_experience" value="fresher"  checked><label>Fresher</label>
+                        <input type="radio" class="ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_fresher_experience[]' id="fresher_experience" value="experience" ><label>Experience</label>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_previous_experience[]' id="previous_experience" placeholder="Previous Experience"   >
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_company_name[]' id="company_name" placeholder="Company Name"  >
+                      </div>
+                    </div>
+
+                    <div class="row mt-2">
+                      <div class="col-sm-12">
+                        <label>Duration:</label>
+                        <input type="number" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='ex_duration[]' id="ex_duration" placeholder="Duration" value="0" >
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_register[]' id="register" placeholder="Register For What" >
+                      </div>
+                    </div>
+                                                    
+                    `
+                );
+            });
+          });
+</script>
+<script>
+  $(document).ready(function(){
+            
+            $('#add_sub').click(function(){
+            
+                $('#sub_info').append(
+                    `
+                    <div class="col-md-12 ">
+                    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='sub_lb[]' id="sub_lb" >
+                   
+                  </div>
+                  <div class="col-md-12">
+                    <textarea name='sub_txt[]' id="sub_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; " ></textarea>
+                      <input type="file" name='sub_file[]' id="sub_file" class="form-control mt-2 "
+                      style="text-decoration:none;background-color: #191c24;color:#6C7293 ;">
+                  </div>
+                                                    
+                    `
+                );
+            });
+          });
+</script>
+
+<script>
+  $(document).ready(function(){
+    
+    var chl=document.getElementById('internshipno').checked;
+    
+    if (chl==true){
+      document.write("sdfdf")
+      document.getElementById('internship_institute').value="None"
+      document.getElementById('internship_topic').value="None"
+    }
+    
+
+});
+
+</script>
+
+<script>
+ function view_inptfile(){
+  var up_ld_excel = document.getElementById('up_ld_excel');
+  up_ld_excel.style=('display: block');
+ }
+</script>
+<script>     
+function check_pr(){
+    var chk_pr=document.getElementById("pr").checked;
+    var textarea = document.getElementById('pr_txt');
+    var files = document.getElementById('pr_file');
+    if (chk_pr==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_art(){
+    var chk_art=document.getElementById("art").checked;
+    var textarea = document.getElementById('art_txt');
+    var files = document.getElementById('art_file');
+    if (chk_art==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_blg(){
+    var chk_blg=document.getElementById("blg").checked;
+    var textarea = document.getElementById('blg_txt');
+    var files = document.getElementById('blg_file');
+    if (chk_blg==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_cls(){
+    var chk_cls=document.getElementById("cls").checked;
+    var textarea = document.getElementById('cls_txt');
+    var files = document.getElementById('cls_file');
+    if (chk_cls==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+  function check_gst(){
+    var chk_gst=document.getElementById("gst").checked;
+    var textarea = document.getElementById('gst_txt');
+    var files = document.getElementById('gst_file');
+    if (chk_gst==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_bk(){
+    var chk_bk=document.getElementById("bk").checked;
+    var textarea = document.getElementById('bk_txt');
+    var files = document.getElementById('bk_file');
+    if (chk_bk==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+</script>
+
+<script>
+  function check_fb(){
+    var chk_fb=document.getElementById("fb").checked;
+    var textarea = document.getElementById('fb_txt');
+    var files = document.getElementById('fb_file');
+    if (chk_fb==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_tw(){
+    var chk_tw=document.getElementById("tw").checked;
+    var textarea = document.getElementById('tw_txt');
+    var files = document.getElementById('tw_file');
+    if (chk_tw==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_pin(){
+    var chk_pin=document.getElementById("pin").checked;
+    var textarea = document.getElementById('pin_txt');
+    var files = document.getElementById('pin_file');
+    if (chk_pin==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_link(){
+    var chk_link=document.getElementById("link").checked;
+    var textarea = document.getElementById('link_txt');
+    var files = document.getElementById('link_file');
+    if (chk_link==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_insta(){
+    var chk_insta=document.getElementById("insta").checked;
+    var textarea = document.getElementById('insta_txt');
+    var files = document.getElementById('insta_file');
+    if (chk_insta==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_tumb(){
+    var chk_tumb=document.getElementById("tumb").checked;
+    var textarea = document.getElementById('tumb_txt');
+    var files = document.getElementById('tumb_file');
+    if (chk_tumb==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_diry(){
+    var chk_diry=document.getElementById("diry").checked;
+    var textarea = document.getElementById('diry_txt');
+    var files = document.getElementById('diry_file');
+    if (chk_diry==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_yt(){
+    var chk_yt=document.getElementById("yt").checked;
+    var textarea = document.getElementById('yt_txt');
+    var files = document.getElementById('yt_file');
+    if (chk_yt==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_qra(){
+    var chk_qra=document.getElementById("qra").checked;
+    var textarea = document.getElementById('qra_txt');
+    var files = document.getElementById('qra_file');
+    if (chk_qra==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  
+</script>
+<script>
+  $(document).ready(function () {
+    $("#search").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  function setselected(id) {
+    $('input[name="selected"]').val(id);
+  }
+</script>
+
+
+
+{% endblock %}
+

@@ -1,0 +1,40 @@
+{%extends 'dm_manager/dm_ base.html'%}
+{%load static%}
+{% block content %}
+<style>
+  .red {
+    color: red;
+  }
+
+  .green {
+    color: green;
+  }
+</style>
+
+<div class="row mt-5">
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th scope="col" style="color:#6C7293;">Date</th>
+              <th scope="col" style="color:#6C7293;">Total Leads</th>
+              <th scope="col" style="color:#6C7293;">Not Assigned</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for lead in leads_by_date %}
+            <tr>
+                <td><a href="{% url 'assign_all' lead.date %}" class="text-decoration-none text-white">{{ lead.date }}</a></td>
+                <td>{{ lead.total_leads }}</td>
+                <td > <span class="badge bg-transparent border border-danger text-danger">{{ lead.not_assigned }}</span></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

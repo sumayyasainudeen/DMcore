@@ -1,0 +1,370 @@
+{%extends 'executive/ex_base.html'%}
+<!-- DEVprojects -->
+{%load static%}
+{%block content%}
+<style>
+  #replay{
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    text-align: justify;
+  }
+  #warning{
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    text-align: justify;
+  }
+</style>
+
+
+
+<div class="row pt-3" style="background-color: black;">
+    <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">Corrections</div>
+  </div>
+
+
+<div class="row mt-4" style="background-color: #191c24">
+
+    <div class="table-responsive mt-3 mb-3 container">
+
+        <table class="table   table-bordered ">
+          <thead style="background-color: black;">
+            <tr>
+              <th scope="col" style="color:#6C7293;">Date</th>
+              <th scope="col" style="color:#6C7293;">Correction</th>
+              
+              <th scope="col" style="color:#6C7293;">Correction Work</th> 
+              
+              <th scope="col" style="color:#6C7293;">Replay</th>
+
+             
+              
+              <th scope="col" style="color:#6C7293;">Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+
+            {% for i in warn%}
+            <form action="{% url 'add_corrections' i.id%}" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+            <tr>
+              
+              <td style="color:white;">{{i.date}}</td>
+
+              <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info" onclick="warning('{{i.id}}')" >View Corrections</div></td>
+              {% if i.daily_id == NULL%}
+              <td></td>
+              {%else%}
+              <td style="color:white;" data-toggle="modal" data-target="#ramss{{i.daily_id}}"><div class="badge badge-outline-info">Work Details</div></td>
+              {% endif %}
+
+              <td style="color:white;" > 
+                {% if i.reply != NULL %}
+                  <a href="" data-toggle="modal" data-target="#reply"><div class="badge badge-outline-info" onclick="warning('{{i.id}}')" >View Reply</div></a>
+                {% else %}
+                <textarea name="workdone" class="form-control-sm bg-transparent text-light"
+                    cols="25" rows="7"></textarea>
+                {% endif %}
+              </td>
+              
+              <td>
+                {% if i.reply != NULL %}
+                 
+                {% else %}
+                <button type="submit" class="btn badge-outline-primary">submit</button>
+                {% endif %}
+                
+         
+                
+              </td>
+            </tr>
+          </form>
+            {%endfor%}
+          </tbody>
+        </table>
+      
+      </div>
+
+
+  <div class="rowmt-5 modal fade" id="feed">
+    <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+      aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;">Correction</div>
+  
+              <div class="row mt-5">
+                <div class="col">
+                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="warng"></p>
+                </div>
+                
+              </div>
+             
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rowmt-5 modal fade" id="reply">
+    <div class="modal-dialog modal-m modal-dialog-centered" role="document">
+      <div class="modal-content modal-md" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <div class="container">
+              <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+                style="background-color: #191c24;border:none; float: right; font-size: 20px;">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <div class="text-info" style="font-size: 20px;font-weight: 600;">Reply</div>
+  
+              <div class="row mt-5">
+                <div class="col">
+                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="rep_des"></p>
+                </div>
+                
+              </div>
+             
+          </div>
+        </div>
+    </div>
+  </div>
+  
+
+
+
+{% for work in dl_work %}
+  <div class="rowmt-5 modal fade" id="ramss{{work.id}}">
+    <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            
+  
+            <div class="row mt-5">
+              <div class="col">
+                <div class="text-info" style="font-size: 20px;font-weight: 600;">Date</div>
+                <p class=" mt-2 text-light" style="color:white; ; font-size: 16px; text-align:justify" id="des_rp">{{work.date}}</p>
+              </div>
+              <hr>
+              <div class="col">
+                <div class="text-info" style="font-size: 20px;font-weight: 600;">Description</div>
+                <p class=" mt-2 text-light" style="color:white; ; font-size: 16px; text-align:justify" id="des_rp">{{work.workdone}}</p>
+              </div>
+
+              <div>
+                {% if work.task == "Leeds Collection" %}
+                {% for n in dl_leeds %}
+                    
+                      {% if work.id == n.daily_id%}
+                      <a href="" data-dismiss="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')" data-toggle="modal" ><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      
+                      {%else%}
+                      {%endif%}
+                      
+                    {%endfor%}
+                {%else%}
+                {%endif%}
+
+                {% if work.task == "SMO" %}
+                    {% if work.fb != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Facebook','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Facebook</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.tw != None%}
+                    <a href="" data-toggle="modal" data-target="#descr"onclick="view_sub('Twitter','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Twitter</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.pin != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Pinterest','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Pinterest</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.link != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Linkedin','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Linkedin</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.insta != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Instagram','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Instagram</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.tumb != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumblr','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Tumblr</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.diry != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Directories','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Directories</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.yt != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('You Tube','{{work.id}}')"><div class="badge badge-outline-primary mt-1">You Tube</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.qra != v%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Quora','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Quora</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% for n in dl_sub %}
+                    
+                      {% if work.id == n.daily_id%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      {%else%}
+                      {%endif%}
+                    {%endfor%}
+                
+                {%else%}
+                {%endif%}
+
+                
+                    {% if work.pr != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('PR Submission','{{work.id}}')"><div class="badge badge-outline-primary mt-1">PR Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.art != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Article Submission','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Article Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.blg != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Blog Posting','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Blog Posting</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.clss != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Classified Submission','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Classified Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.gst != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Guest Blogging','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Guest Blogging</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.gst != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Bokkmarking','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Bokkmarking</div></a>
+                    {%else%}
+                    {%endif%}
+                    
+
+                    {% for n in dl_off %}
+                    
+                      {% if work.id == n.daily_id%}
+                      <a href="" data-dismiss="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')" data-toggle="modal" ><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      
+                      {%else%}
+                      {%endif%}
+                      
+                    {%endfor%}
+                
+                  
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+{%endfor%}
+
+<div class="rowmt-5 modal fade" id="descr">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads"></div>
+
+          <div class="row mt-5">
+            <div class="col">
+              <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="sub_des"></p>
+
+              <div id="files_sub">
+                  <a href="" id="files"><div  class="btn-primary Search" style="width:220px; text-align:center" >Download Attach File</div></a>
+                </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function view_sub(el, id){
+      var elem=el
+      var ids=id
+      
+      $.ajax({
+          type: "GET",
+          url: "{% url 'get_sub' %}",
+          data: {
+              ele : elem,
+              idss:ids,
+              
+          },
+          success:function(response){
+                  console.log(response)
+           
+                  head = response.hd
+                  des = response.des
+                  fil = response.fl
+           
+                  document.getElementById('sub_des').innerHTML = des;
+                  document.getElementById('heads').innerHTML = head;
+                  flr=document.getElementById('files')
+             
+                  flr.href = (`/media/${fil}`)
+                  
+
+          }});
+
+      
+  }
+</script>
+
+<script>
+  function warning(el){
+        var elem=el
+        
+        $.ajax({
+            type: "GET",
+            url: "{% url 'get_corrections' %}",
+            data: {
+                ele : elem,
+                
+            },
+            success:function(response){
+                    console.log(response)
+                    warnss = response.warns
+                    repl = response.rep
+                    
+                    document.getElementById('warng').innerHTML = warnss;
+                    document.getElementById('rep_des').innerHTML = repl;
+                    
+                    
+  
+            }});
+  
+        
+    }
+  </script>
+  {% endblock %}

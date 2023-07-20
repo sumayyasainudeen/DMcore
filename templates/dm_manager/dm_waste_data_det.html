@@ -1,0 +1,77 @@
+{%extends 'dm_manager/dm_ base.html'%}
+{%load static%}
+{%block content%}
+
+
+<div class="row pt-3" style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">Details</div>
+</div>
+<div class="row mt-4">
+  <div class="card">
+    <div class="card-body">
+        <!-- <div style="text-align: right;">
+            <a href="" data-toggle="modal" data-target="#flt_day"style="text-decoration: none;"><button type="submit" name="submit" id="alert2" class="btn-primary Search" >Filter By Day</button></a>
+            <a href="" data-toggle="modal" data-target="#flt_month"style="text-decoration: none;"><button type="submit" name="submit" id="alert3" class="btn-primary Search" >Filter By Month</button></a>
+            <br><br>
+          </div> -->
+        <input type="text" class="form-control text-light" onkeyup="myFunction()" id="search" name="search" autocomplete="off" placeholder="Search...">
+        <br>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              
+              <th scope="col" style="color:#6C7293;">Assign Date</th>
+              <th scope="col" style="color:#6C7293;">Name</th>
+              <th scope="col" style="color:#6C7293;">Mail Id</th>
+              <th scope="col" style="color:#6C7293;">Phone Number</th>
+              <th scope="col" style="color:#6C7293;">Reason</th>
+              
+            </tr>
+          </thead>
+          <tbody id="myTable">
+
+            
+              {% for i in leads %}
+              <tr>
+                
+                <td style="color:white;">{{i.assign_dt}}</td>
+                <td style="color:white;">{{i.name}}</td>
+                <td style="color:white;">{{i.email_id}}</td>
+                <td style="color:white;">{{i.ph_no}}</td>
+                <td style="color:white;">{{i.status}}</td>
+
+                
+              
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  $(document).ready(function () {
+    $("#search").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+
+ 
+</script>
+
+<script type="text/javascript">
+  function setselected(id) {
+    $('input[name="selected"]').val(id);
+  }
+</script>
+
+{% endblock %}
